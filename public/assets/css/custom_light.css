@@ -1,0 +1,12 @@
+[data-header-styles="light"] {
+    /* --header-bg: linear-gradient(
+        to right,
+        rgba(1, 97, 232, 0) 0%,
+        #00a0da 100%
+    ); */
+    --header-bg: linear-gradient(to right, rgb(234 237 248) 0%, #00a0da 100%);
+    --header-border-color: #f3f3f3;
+    --header-prime-color: #71829b;
+    --header-prime-color: #f3f3f3;
+    --box-item-bg: #fff;
+}

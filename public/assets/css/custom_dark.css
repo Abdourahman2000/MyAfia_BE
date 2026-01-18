@@ -1,0 +1,3 @@
+[data-theme-mode="dark"] {
+    --box-item-bg: rgb(var(--body-bg-rgb));
+}

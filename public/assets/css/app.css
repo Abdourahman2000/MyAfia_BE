@@ -1,0 +1,220 @@
+@media (min-width: 992px) {
+    .footer {
+        padding-inline-start: 0;
+    }
+}
+
+[data-header-styles="light"] .main-header-center .form-control {
+    background-color: #fff;
+}
+.app-sidebar i.side-menu__icon {
+    /* width: unset !important;
+    height: unset !important; */
+    height: auto !important;
+}
+/* .menu-click .app-content,
+[data-nav-style="menu-click"][data-nav-layout="horizontal"] .app-content,
+[data-nav-style="menu-click"][data-toggled="menu-click-closed"] .app-content {
+    margin-top: 8rem !important;
+} */
+.app-sidebar .slide.has-sub.open .side-menu__icon {
+    color: var(--primary-color);
+}
+.header_avatar {
+    object-fit: cover;
+    border: 1.5px solid #e3e8f7b3;
+    box-shadow: -8px 12px 18px 0 #49494a3d;
+}
+.box_of_item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1%;
+}
+.box_item {
+    background: var(--box-item-bg);
+    padding: 0.5rem;
+    width: 11.6%;
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.box_item h5 {
+    font-size: 0.8rem;
+    margin-top: 0.7rem;
+    text-align: center;
+}
+.box_item span {
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: capitalize;
+    margin-bottom: 0.5rem;
+}
+.box_item a {
+    padding: 0.3rem 0.5rem;
+    margin-top: auto;
+    width: 100%;
+    border-radius: 2rem;
+    font-weight: bold;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+.box_item img {
+    width: 95%;
+    height: 120px;
+    border-radius: 0.3rem;
+    object-fit: cover;
+}
+.pagination-style-1 .pagination .page-item .page-link {
+    border: 1px solid #dededebd;
+}
+
+@media (max-width: 992px) {
+    .footer {
+        padding-inline-start: 0;
+    }
+    .box_item {
+        width: 24%;
+    }
+}
+.pagination_search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.pagination_search input {
+    width: 100%;
+    padding-right: 3%;
+    border-radius: 0.4rem !important;
+}
+.pagination_search button {
+    position: absolute;
+    top: 23%;
+    right: 0rem;
+    transform: translateX(-50%);
+    background-color: transparent;
+    outline: 0;
+    border: none;
+}
+.pagination_search i {
+    font-size: 1rem;
+    font-weight: 900;
+    color: #b4bdce;
+}
+label {
+    cursor: pointer;
+}
+.footer {
+    padding: 0.5rem;
+}
+.main-content.app-content > .container-fluid {
+    margin-top: 2rem !important;
+}
+.scrollToTop {
+    cursor: pointer;
+}
+.dt-buttons {
+    margin-bottom: 1rem;
+}
+.pi_left {
+    border-right: 1px solid #ccc;
+    width: 30%;
+    text-align: center;
+    padding: 0.5rem;
+}
+.pi_left_img {
+    width: 83%;
+    height: 80%;
+    object-fit: cover;
+    border-radius: 0.2rem;
+}
+.pi_right {
+    width: 68%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.pi_right_block {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0.7rem;
+    border-bottom: 1px solid #cccccc66;
+}
+.pi_right_block:nth-last-child(1) {
+    border-bottom: 0;
+}
+.care_access_yes,
+.care_access_no {
+    color: #fff;
+    padding: 0.3rem;
+    border-radius: 0.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-left: 0.7rem;
+}
+.care_access_yes {
+    background: #198754db;
+}
+.care_access_no {
+    background: #dc3545;
+}
+.patient_age {
+    color: #0d6efd;
+    font-size: 0.9rem !important;
+    /* background: rgb(var(--body-bg-rgb)); */
+    text-align: center;
+    padding: 0 1rem;
+    border-radius: 1rem;
+}
+.patient_blocked {
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    border-radius: 0.3rem;
+    margin: 0;
+    margin-top: auto;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 0.3rem 0.5rem;
+}
+.print_fiche_table {
+    width: 100%;
+    cursor: pointer;
+    transition: 0.3s all;
+    background: transparent;
+}
+.print_fiche_table:hover {
+    background-color: var(--primary-color);
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+    border-radius: 50%;
+}
+.dot-green {
+    background: green;
+}
+.dot-red {
+    background: #dc3545;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--primary-rgb), 0.7) !important;
+}
+.today_fiche_flag {
+    padding: 0.1rem 1rem;
+    background: #dc3545;
+    color: #fff;
+    border-radius: 1rem;
+    margin-left: 1rem;
+    font-size: 0.7rem;
+}
+.print_fiche_table:hover {
+    color: #fff;
+}
