@@ -83,6 +83,7 @@ class BiometricsController extends Controller
 
 
             return view('biometrics.getPatient', [
+                'data' => $dataReturned,
                 'canprint' => auth()->user()->canprint,
                 'canprintfamily' => auth()->user()->canprintfamily
             ]);
