@@ -72,6 +72,10 @@ class UsersController extends Controller
             'taken_by' => Auth::user()->name,
             'gender' => $request->gender,
             'remember_token' => Str::random(10),
+            'canprint' => $request->boolean('canprint'),
+            'canexcept' => $request->boolean('canexcept'),
+            'canprintfamily' => $request->boolean('canprintfamily'),
+            'canbiometrie' => $request->boolean('canbiometrie'),
         ]);
         return redirect()->route('users.index')->with('add', 'New user added to the system');
     }

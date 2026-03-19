@@ -66,5 +66,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'check_temp' => \App\Http\Middleware\checkTempPass::class,
+        'can_biometrie' => \App\Http\Middleware\CheckCanBiometrie::class,
+        'is_desktop' => \App\Http\Middleware\IsDesktopBiometrieMiddleware::class,
     ];
 }

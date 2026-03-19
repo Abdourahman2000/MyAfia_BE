@@ -379,7 +379,7 @@ class AjaxController extends Controller
 
 
 
-    // cotisant 
+    // cotisant
 
 
     public function getEmployerForException(Request $request)

@@ -1,325 +1,456 @@
 <x-app-layout>
     @section('title', 'Capture Visage')
     @section('css')
+        <!-- Sweetalerts CSS -->
+        <link rel="stylesheet" href="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.css">
         <style>
+            .biometric-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 30px;
+            }
+
+            .biometric-title {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .biometric-title-icon {
+                width: 58px;
+                height: 58px;
+                background: #eaf1ff;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                color: #4a7dff;
+            }
+
+            .biometric-title h2 {
+                margin: 0;
+                font-weight: 700;
+            }
+
+            .biometric-title p {
+                margin: 0;
+                color: #6b7280;
+                font-size: 14px;
+            }
+
+            .status-indicator {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 600;
+                padding: 8px 16px;
+                border-radius: 20px;
+                background: #fef2f2;
+            }
+
+            .status-connected {
+                color: #10b981;
+                background: #f0fdf4;
+            }
+
+            .status-disconnected {
+                color: #ef4444;
+                background: #fef2f2;
+            }
+
+            .status-connecting {
+                color: #f59e0b;
+                background: #fffbeb;
+            }
+
+            /* ... existing colors ... */
+
+            .biometric-card {
+                background: #ffffff;
+                border-radius: 16px;
+                padding: 30px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                margin-bottom: 30px;
+            }
+
             /* ===== LAYOUT GLOBAL ===== */
-        .capture-layout {
-            display: grid;
-            grid-template-columns: 2.2fr 1fr;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 1200px) {
             .capture-layout {
-                grid-template-columns: 1fr;
+                display: grid;
+                grid-template-columns: 2.2fr 1fr;
+                gap: 30px;
+                margin-top: 30px;
+                align-items: start;
             }
-        }
 
-        /* ===== CARTES ===== */
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,.08);
-        }
+            @media (max-width: 1200px) {
+                .capture-layout {
+                    grid-template-columns: 1fr;
+                }
+            }
 
-        .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #4099ff;
-            padding-bottom: 10px;
-            color: #2c3e50;
-        }
+            /* ===== CARTES ===== */
+            .card {
+                background: white;
+                border-radius: 16px;
+                padding: 25px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+            }
 
-        .card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            color: #4099ff;
-        }
+            .card h3 {
+                font-size: 1.3rem;
+                margin-bottom: 20px;
+                border-bottom: 2px solid #4099ff;
+                padding-bottom: 10px;
+                color: #2c3e50;
+            }
 
-        /* ===== SECTION CAPTURE ===== */
-        .capture-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
+            .card h4 {
+                font-size: 1.1rem;
+                margin-bottom: 15px;
+                color: #4099ff;
+            }
 
-        @media (max-width: 768px) {
+            /* ===== SECTION CAPTURE ===== */
             .capture-row {
-                grid-template-columns: 1fr;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
             }
-        }
 
-        /* ===== WEBCAM ===== */
-        .video-container {
-            position: relative;
-            aspect-ratio: 4 / 3;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 3px solid #4099ff;
-            margin-bottom: 15px;
-        }
+            @media (max-width: 768px) {
+                .capture-row {
+                    grid-template-columns: 1fr;
+                }
+            }
 
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+            /* ===== WEBCAM & CAPTURE CONTAINERS ===== */
+            .video-container,
+            .capture-container {
+                position: relative;
+                aspect-ratio: 4 / 3;
+                width: 100%;
+                border-radius: 12px;
+                overflow: hidden;
+                border: 3px solid #4099ff;
+                margin-bottom: 15px;
+            }
 
-        .face-detected {
-            border-color: #2ed8b6 !important;
-            box-shadow: 0 0 15px rgba(46, 216, 182, 0.3) !important;
-        }
+            .capture-container {
+                border: 2px dashed #d1d5db;
+                border-color: #d1d5db;
+                /* Explicitly set border color */
+            }
 
-        .no-face-detected {
-            border-color: #FF5370 !important;
-            box-shadow: 0 0 15px rgba(255, 83, 112, 0.3) !important;
-        }
+            video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
-        /* ===== CAPTURE ===== */
-        .capture-container {
-            aspect-ratio: 4 / 3;
-            border-radius: 12px;
-            background: #f9fafb;
-            border: 3px dashed #d1d5db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
+            /* .face-detected {
+                                                        border-color: #2ed8b6 !important;
+                                                        box-shadow: 0 0 15px rgba(46, 216, 182, 0.3) !important;
+                                                    }
 
-        #captured-image {
-            display: none;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-        }
+                                                    .no-face-detected {
+                                                        border-color: #FF5370 !important;
+                                                        box-shadow: 0 0 15px rgba(255, 83, 112, 0.3) !important;
+                                                    } */
 
-        .placeholder-text {
-            color: #6b7280;
-            text-align: center;
-            padding: 20px;
-        }
+            /* ===== CAPTURE ===== */
+            .capture-container {
+                aspect-ratio: 4 / 3;
+                border-radius: 12px;
+                background: #f9fafb;
+                border: 3px dashed #d1d5db;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                margin-bottom: 15px;
+            }
 
-        .placeholder-text i {
-            font-size: 48px;
-            margin-bottom: 10px;
-            display: block;
-            color: #cbd5e1;
-        }
+            #captured-image {
+                display: none;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                border-radius: 8px;
+            }
 
-        /* ===== BOUTONS ===== */
-        .btn-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+            .placeholder-text {
+                color: #6b7280;
+                text-align: center;
+                padding: 20px;
+            }
 
-        .btn {
-            padding: 14px;
-            border-radius: 10px;
-            border: none;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+            .placeholder-text i {
+                font-size: 48px;
+                margin-bottom: 10px;
+                display: block;
+                color: #cbd5e1;
+            }
 
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
+            /* ===== BOUTONS ===== */
+            .btn-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
 
-        .btn:active:not(:disabled) {
-            transform: translateY(0);
-        }
+            .btn {
+                padding: 14px;
+                border-radius: 10px;
+                border: none;
+                color: white;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 15px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
 
-        .btn-start {
-            background: #4099ff;
-            box-shadow: 0 2px 6px rgba(64, 153, 255, 0.25);
-        }
+            .btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none !important;
+                box-shadow: none !important;
+            }
 
-        .btn-stop {
-            background: #FF5370;
-            box-shadow: 0 2px 6px rgba(255, 83, 112, 0.25);
-        }
+            .btn:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
 
-        .btn-capture {
-            background: #2ed8b6;
-            box-shadow: 0 2px 6px rgba(46, 216, 182, 0.25);
-        }
+            .btn:active:not(:disabled) {
+                transform: translateY(0);
+            }
 
-        .btn-identify {
-            background: #9b59b6;
-            box-shadow: 0 2px 6px rgba(155, 89, 182, 0.25);
-        }
+            .btn-start {
+                background: #4099ff;
+                box-shadow: 0 2px 6px rgba(64, 153, 255, 0.25);
+            }
 
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
+            .btn-start:hover {
+                background: #1f7de9ff;
+                color: white;
+                box-shadow: 0 2px 6px rgba(64, 153, 255, 0.25);
+            }
 
-        /* ===== METRIQUES ===== */
-        .metric-line {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px dashed #e5e7eb;
-            font-size: 15px;
-            transition: all 0.3s ease;
-        }
+            .btn-stop {
+                background: #FF5370;
+                box-shadow: 0 2px 6px rgba(255, 83, 112, 0.25);
+            }
 
-        .metric-line:last-child {
-            border-bottom: none;
-        }
+            .btn-stop:hover {
+                background: #ec1b3eff;
+                color: white;
+                box-shadow: 0 2px 6px rgba(255, 83, 112, 0.25);
+            }
 
-        .metric-label {
-            color: #4b5563;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+            .btn-capture {
+                background: #2ed8b6;
+                box-shadow: 0 2px 6px rgba(46, 216, 182, 0.25);
+            }
 
-        .metric-label i {
-            font-size: 18px;
-            width: 24px;
-        }
+            .btn-capture:hover {
+                background: #0fb191ff;
+                color: white;
+                box-shadow: 0 2px 6px rgba(46, 216, 182, 0.25);
+            }
 
-        .metric-value {
-            font-weight: 700;
-            min-width: 60px;
-            text-align: right;
-        }
+            .btn-identify {
+                background: #9b59b6;
+                box-shadow: 0 2px 6px rgba(155, 89, 182, 0.25);
+            }
 
-        .metric-value.good {
-            color: #2ed8b6;
-        }
+            .btn-identify:hover {
+                background: #8122a6ff;
+                color: white;
+                box-shadow: 0 2px 6px rgba(155, 89, 182, 0.25);
+            }
 
-        .metric-value.bad {
-            color: #FF5370;
-        }
+            .btn-capture:disabled,
+            .btn-identify:disabled {
+                background: #ffffff !important;
+                color: #cbd5e1 !important;
+                border: none;
+                opacity: 1 !important;
+            }
 
-        .metric-value.neutral {
-            color: #4099ff;
-        }
+            /* ===== METRIQUES ===== */
+            .metric-line {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px dashed #e5e7eb;
+                font-size: 12px;
+                transition: all 0.3s ease;
+            }
 
-        .metric-value.warning {
-            color: #FFB64D;
-        }
+            .metric-line:last-child {
+                border-bottom: none;
+            }
 
-        /* ===== PROGRESS BARS ===== */
-        .metric-progress {
-            width: 100%;
-            height: 6px;
-            background: #e5e7eb;
-            border-radius: 3px;
-            margin-top: 6px;
-            overflow: hidden;
-        }
+            .metric-label {
+                color: #4b5563;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
 
-        .progress-bar {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
+            .metric-label i {
+                font-size: 18px;
+                width: 24px;
+            }
 
-        /* ===== ALERTES ===== */
-        .alert-container {
-            margin-bottom: 20px;
-        }
+            .metric-value {
+                font-weight: 700;
+                min-width: 60px;
+                text-align: right;
+                color: #4099ff;
+            }
 
-        .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            border-left: 4px solid;
-        }
+            /* .metric-value.good {
+                                                        color: #2ed8b6;
+                                                    }
 
-        .alert-success {
-            background-color: rgba(46, 216, 182, 0.1);
-            border-color: #2ed8b6;
-            color: #0f766e;
-        }
+                                                    .metric-value.bad {
+                                                        color: #FF5370;
+                                                    }
 
-        .alert-error {
-            background-color: rgba(255, 83, 112, 0.1);
-            border-color: #FF5370;
-            color: #be123c;
-        }
+                                                    .metric-value.neutral {
+                                                        color: #4099ff;
+                                                    }
 
-        .alert-info {
-            background-color: rgba(64, 153, 255, 0.1);
-            border-color: #4099ff;
-            color: #1e40af;
-        }
+                                                    .metric-value.warning {
+                                                        color: #FFB64D;
+                                                    } */
 
-        .alert i {
-            font-size: 18px;
-        }
+            /* ===== PROGRESS BARS ===== */
+            /* .metric-progress {
+                                                        width: 100%;
+                                                        height: 6px;
+                                                        background: #e5e7eb;
+                                                        border-radius: 3px;
+                                                        margin-top: 6px;
+                                                        overflow: hidden;
+                                                    }
 
-        /* ===== DETECTION STATUS ===== */
-        .detection-status {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+                                                    .progress-bar {
+                                                        height: 100%;
+                                                        border-radius: 3px;
+                                                        transition: width 0.5s ease;
+                                                    } */
 
-        .status-detected {
-            background: rgba(46, 216, 182, 0.1);
-            border-color: #2ed8b6;
-            color: #2ed8b6;
-        }
+            /* ===== ALERTES ===== */
+            /* .alert-container {
+                                                        margin-bottom: 20px;
+                                                    }
 
-        .status-no-face {
-            background: rgba(255, 83, 112, 0.1);
-            border-color: #FF5370;
-            color: #FF5370;
-        }
+                                                    .alert {
+                                                        padding: 12px 16px;
+                                                        border-radius: 8px;
+                                                        margin-bottom: 15px;
+                                                        display: flex;
+                                                        align-items: center;
+                                                        gap: 10px;
+                                                        font-size: 14px;
+                                                        border-left: 4px solid;
+                                                    }
 
-        .status-loading {
-            background: rgba(64, 153, 255, 0.1);
-            border-color: #4099ff;
-            color: #4099ff;
-        }
+                                                    .alert-success {
+                                                        background-color: rgba(46, 216, 182, 0.1);
+                                                        border-color: #2ed8b6;
+                                                        color: #0f766e;
+                                                    }
 
-        /* ===== CANVAS OVERLAY ===== */
-        #overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+                                                    .alert-error {
+                                                        background-color: rgba(255, 83, 112, 0.1);
+                                                        border-color: #FF5370;
+                                                        color: #be123c;
+                                                    }
 
-        #canvas {
-            display: none;
-        }
+                                                    .alert-info {
+                                                        background-color: rgba(64, 153, 255, 0.1);
+                                                        border-color: #4099ff;
+                                                        color: #1e40af;
+                                                    }
+
+                                                    .alert i {
+                                                        font-size: 18px;
+                                                    } */
+
+            /* ===== DETECTION STATUS ===== */
+            /* .detection-status {
+                                                        position: absolute;
+                                                        top: 10px;
+                                                        left: 50%;
+                                                        transform: translateX(-50%);
+                                                        padding: 8px 16px;
+                                                        border-radius: 20px;
+                                                        font-size: 12px;
+                                                        font-weight: 600;
+                                                        z-index: 10;
+                                                        background: rgba(255, 255, 255, 0.9);
+                                                        border: 1px solid;
+                                                        display: flex;
+                                                        align-items: center;
+                                                        gap: 6px;
+                                                    }
+
+                                                    .status-detected {
+                                                        background: rgba(46, 216, 182, 0.1);
+                                                        border-color: #2ed8b6;
+                                                        color: #2ed8b6;
+                                                    }
+
+                                                    .status-no-face {
+                                                        background: rgba(255, 83, 112, 0.1);
+                                                        border-color: #FF5370;
+                                                        color: #FF5370;
+                                                    }
+
+                                                    .status-loading {
+                                                        background: rgba(64, 153, 255, 0.1);
+                                                        border-color: #4099ff;
+                                                        color: #4099ff;
+                                                    } */
+
+            /* ===== CANVAS OVERLAY ===== */
+            #overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+            }
+
+            .video-placeholder {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #f3f4f6;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                color: #6b7280;
+                font-weight: 500;
+                z-index: 5;
+            }
+
+            #canvas {
+                display: none;
+            }
         </style>
     @endsection
 
@@ -327,450 +458,521 @@
         <!-- Start::app-content -->
         <div class="main-content app-content">
             <div class="container-fluid">
-                <x-breadcrumb.wrapper title="Capture et Identification du Visage">
-                    <x-breadcrumb.item title="Biométrie" link="#" />
-                    <x-breadcrumb.item title="Capture Visage" type="current" />
-                </x-breadcrumb.wrapper>
+                <!-- HEADER -->
+                <div class="biometric-header">
+                    <div class="biometric-title">
+                        <div class="biometric-title-icon">
+                            <i class="ti ti-scan"></i>
+                        </div>
+                        <div>
+                            <h2>Reconnaissance Faciale</h2>
+                            <p>Capture du visage pour l'identification</p>
+                        </div>
+                    </div>
+
+                    <div id="statusIndicator" class="status-indicator status-disconnected">
+                        <i class="ti ti-wifi-off"></i>
+                        <span>Déconnecté</span>
+                    </div>
+                </div>
 
                 {{-- <div class="alert-container" id="alert-container"></div> --}}
 
                 <div class="capture-layout">
 
-            <!-- ================= GAUCHE : CAPTURE ================= -->
-            <div class="card">
-                <h3><i class="ti ti-camera"></i> Capture Visage</h3>
+                    <!-- ================= GAUCHE : CAPTURE ================= -->
+                    <div class="card">
+                        <h3><i class="ti ti-camera"></i> Capture Visage</h3>
 
-                <div class="capture-row">
+                        <div class="capture-row">
 
-                    <!-- Webcam -->
-                    <div>
-                        <h4><i class="ti ti-video"></i> Webcam</h4>
-                        <div class="video-container" id="video-container">
-                            <div class="detection-status status-loading" id="detection-status">
-                                <i class="ti ti-loader"></i> Chargement...
+                            <!-- Webcam -->
+                            <div>
+                                <h4><i class="ti ti-video"></i> Webcam</h4>
+                                <div class="video-container" id="video-container">
+                                    {{-- <div class="detection-status status-loading" id="detection-status">
+                                        <i class="ti ti-loader"></i> Chargement...
+                                    </div> --}}
+                                    <div id="videoPlaceholder" class="video-placeholder">
+                                        Démarrer la caméra
+                                    </div>
+                                    <img id="video"
+                                        style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                                    <canvas id="overlay"></canvas>
+                                    <canvas id="canvas"></canvas>
+                                </div>
+                                <div class="btn-container" id="btnContainer">
+                                </div>
                             </div>
-                            <video id="video" autoplay playsinline></video>
-                            <canvas id="overlay"></canvas>
-                            <canvas id="canvas"></canvas>
-                        </div>
-                        <div class="btn-container">
-                            <button id="startBtn" class="btn btn-start">
-                                <i class="ti ti-video"></i> Démarrer
-                            </button>
-                            <button id="captureBtn" class="btn btn-capture" disabled>
-                                <i class="ti ti-camera"></i> Capturer
-                            </button>
+
+                            <!-- Capture -->
+                            <div>
+                                <h4><i class="ti ti-photo"></i> Photo capturée</h4>
+                                <div class="capture-container" id="capture-container">
+                                    <div id="placeholder" class="placeholder-text">
+                                        <i class="ti ti-photo-off"></i>
+                                        La photo apparaîtra ici
+                                    </div>
+                                    <img id="captured-image" alt="Photo capturée">
+                                </div>
+                                <button id="identifyBtn" class="btn btn-identify" disabled>
+                                    <i class="ti ti-search"></i> Identifier
+                                </button>
+                                <div id="capture-metrics" style="margin-top: 15px; display: none;">
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <!-- Capture -->
-                    <div>
-                        <h4><i class="ti ti-photo"></i> Photo capturée</h4>
-                        <div class="capture-container" id="capture-container">
-                            <div id="placeholder" class="placeholder-text">
-                                <i class="ti ti-photo-off"></i>
-                                La photo apparaîtra ici
-                            </div>
-                            <img id="captured-image" alt="Photo capturée">
+                    <!-- ================= DROITE : METRIQUES ================= -->
+                    <div class="card">
+                        <h3><i class="ti ti-chart-line"></i> Métriques Innovatrics</h3>
+
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-face-id"></i> Visage détecté</span>
+                            <span class="metric-value bad" id="m-face">0</span>
                         </div>
-                        <button id="identifyBtn" class="btn btn-identify" disabled>
-                            <i class="ti ti-search"></i> Identifier
-                        </button>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-brightness"></i> Clarté</span>
+                            <span class="metric-value neutral" id="m-clarity">0%</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-sun"></i> Luminosité</span>
+                            <span class="metric-value warning" id="m-brightness">0%</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-contrast"></i> Contraste</span>
+                            <span class="metric-value neutral" id="m-contrast">0%</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-heartbeat"></i> Liveness</span>
+                            <span class="metric-value bad" id="m-liveness">-</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-calendar-time"></i> Âge</span>
+                            <span class="metric-value bad" id="m-age">-</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-gender-bigender"></i> Genre</span>
+                            <span class="metric-value bad" id="m-gender">-</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-eyeglass"></i> Lunettes</span>
+                            <span class="metric-value bad" id="m-glasses">-</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-eyeglass"></i> Bouches</span>
+                            <span class="metric-value bad" id="m-mouth">-</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-eyeglass"></i> Oeil Droite</span>
+                            <span class="metric-value bad" id="m-right-eye">-</span>
+                        </div>
+                        <div class="metric-line">
+                            <span class="metric-label"><i class="ti ti-eyeglass"></i> Oeil Gauche</span>
+                            <span class="metric-value bad" id="m-left-eye">-</span>
+                        </div>
+
+                        <!-- Progress bars supplémentaires (optionnel) -->
+                        {{-- <div class="metric-progress" style="margin-top: 20px; display: none;">
+                            <div id="progress-clarity" class="progress-bar" style="width: 0%; background: #4099ff;"></div>
+                        </div>
+                        <div class="metric-progress" style="margin-top: 5px; display: none;">
+                            <div id="progress-brightness" class="progress-bar" style="width: 0%; background: #FFB64D;">
+                            </div>
+                        </div> --}}
                     </div>
 
                 </div>
-            </div>
-
-            <!-- ================= DROITE : METRIQUES ================= -->
-            <div class="card">
-                <h3><i class="ti ti-chart-line"></i> Métriques Innovatrics</h3>
-
-                <div class="metric-line">
-                    <span class="metric-label"><i class="ti ti-face-id"></i> Visage détecté</span>
-                    <span class="metric-value bad" id="m-face">0</span>
-                </div>
-                <div class="metric-line">
-                    <span class="metric-label"><i class="ti ti-brightness"></i> Clarté</span>
-                    <span class="metric-value neutral" id="m-clarity">0%</span>
-                </div>
-                <div class="metric-line">
-                    <span class="metric-label"><i class="ti ti-sun"></i> Luminosité</span>
-                    <span class="metric-value warning" id="m-brightness">0%</span>
-                </div>
-                <div class="metric-line">
-                    <span class="metric-label"><i class="ti ti-contrast"></i> Contraste</span>
-                    <span class="metric-value neutral" id="m-contrast">0%</span>
-                </div>
-                <div class="metric-line">
-                    <span class="metric-label"><i class="ti ti-heartbeat"></i> Liveness</span>
-                    <span class="metric-value bad" id="m-liveness">-</span>
-                </div>
-                <div class="metric-line">
-                    <span class="metric-label"><i class="ti ti-calendar-time"></i> Âge</span>
-                    <span class="metric-value bad" id="m-age">-</span>
-                </div>
-                <div class="metric-line">
-                    <span class="metric-label"><i class="ti ti-gender-bigender"></i> Genre</span>
-                    <span class="metric-value bad" id="m-gender">-</span>
-                </div>
-                <div class="metric-line">
-                    <span class="metric-label"><i class="ti ti-eyeglass"></i> Lunettes</span>
-                    <span class="metric-value bad" id="m-glasses">-</span>
-                </div>
-
-                <!-- Progress bars supplémentaires (optionnel) -->
-                <div class="metric-progress" style="margin-top: 20px; display: none;">
-                    <div id="progress-clarity" class="progress-bar" style="width: 0%; background: #4099ff;"></div>
-                </div>
-                <div class="metric-progress" style="margin-top: 5px; display: none;">
-                    <div id="progress-brightness" class="progress-bar" style="width: 0%; background: #FFB64D;"></div>
-                </div>
-            </div>
-
-        </div>
             </div>
         </div>
         <!-- End::app-content -->
     @endsection
 
-        @section('js')
-    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
+    @section('js')
+        <!-- Sweetalerts JS -->
+        <script src="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.js"></script>
+        <script>
+            const statusIndicator = document.getElementById('statusIndicator');
+            const btnContainer = document.getElementById('btnContainer');
 
-    <script>
-        // Éléments DOM
-        const video = document.getElementById('video');
-        const overlay = document.getElementById('overlay');
-        const canvas = document.getElementById('canvas');
-        const startBtn = document.getElementById('startBtn');
-        const captureBtn = document.getElementById('captureBtn');
-        const identifyBtn = document.getElementById('identifyBtn');
-        const capturedImage = document.getElementById('captured-image');
-        const placeholder = document.getElementById('placeholder');
-        const videoContainer = document.getElementById('video-container');
-        const captureContainer = document.getElementById('capture-container');
-        const detectionStatus = document.getElementById('detection-status');
-        // const alertContainer = document.getElementById('alert-container');
-
-        // Métriques
-        const metrics = {
-            face: document.getElementById('m-face'),
-            clarity: document.getElementById('m-clarity'),
-            brightness: document.getElementById('m-brightness'),
-            contrast: document.getElementById('m-contrast'),
-            liveness: document.getElementById('m-liveness'),
-            age: document.getElementById('m-age'),
-            gender: document.getElementById('m-gender'),
-            glasses: document.getElementById('m-glasses')
-        };
-
-        // Variables d'état
-        let stream = null;
-        let capturedData = null;
-        let modelsLoaded = false;
-        let faceDetected = false;
-        let detectionInterval = null;
-        let isRecording = false;
-
-        // Afficher une alerte
-        function showAlert(message, type = 'info') {
-            const icons = {
-                'error': 'alert-circle',
-                'success': 'check',
-                'info': 'info-circle'
-            };
-
-            alertContainer.innerHTML = `
-                <div class="alert alert-${type}">
-                    <i class="ti ti-${icons[type]}"></i>
-                    ${message}
-                </div>
+            // Inject buttons
+            btnContainer.innerHTML = `
+                <button id="startBtn" class="btn btn-start">
+                    <i class="ti ti-video"></i> Démarrer
+                </button>
+                <button id="captureBtn" class="btn btn-capture" disabled>
+                    <i class="ti ti-camera"></i> Capturer
+                </button>
             `;
 
-            setTimeout(() => {
-                alertContainer.innerHTML = '';
-            }, 5000);
-        }
+            const startBtn = document.getElementById('startBtn');
+            const captureBtn = document.getElementById('captureBtn');
+            const video = document.getElementById('video');
+            const videoPlaceholder = document.getElementById('videoPlaceholder');
+            const capturedImage = document.getElementById('captured-image');
+            const placeholder = document.getElementById('placeholder');
+            const identifyBtn = document.getElementById('identifyBtn');
+            let isRunning = false;
+            let ws = null;
+            let wsRetries = 0;
 
-        // Mettre à jour une métrique
-        function updateMetric(name, value, status = 'neutral') {
-            const element = metrics[name];
-            if (element) {
-                element.textContent = value;
-                element.className = `metric-value ${status}`;
-            }
-        }
+            // navigator.mediaDevices.getUserMedia({ video: true })
+            //     .then(function(stream) {
+            //         // La caméra est accessible
+            //         return navigator.mediaDevices.enumerateDevices();
+            //     })
+            //     .then(function(devices) {
+            //         const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            //         if (videoDevices.length > 0) {
+            //         console.log('Webcam branchée :', videoDevices);
+            //         } else {
+            //         console.log('Aucune webcam détectée.');
+            //         }
+            //     })
+            //     .catch(function(err) {
+            //         console.error('Erreur d\'accès à la caméra :', err);
+            //     });
 
-        // Charger les modèles face-api
-        async function loadModels() {
-            try {
-                detectionStatus.innerHTML = '<i class="ti ti-loader"></i> Chargement des modèles...';
-                const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
+            const retrieveMetrics = (message) => {
+                let regex = /([^|:]+):\s*([-+]?\d+(?:\.\d+)?)/g;
+                const result = {};
+                for (const match of message.matchAll(regex)) {
+                    const key = match[1].trim();
+                    const value = parseFloat(match[2]);
+                    result[key] = value;
+                }
+                return result;
+            };
 
-                await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-                await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-                await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
+            function connectWebSocket() {
+                if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
+                    return;
+                }
 
-                modelsLoaded = true;
-                detectionStatus.innerHTML = '<i class="ti ti-check"></i> Prêt à détecter';
-                showAlert('Modèles de détection chargés avec succès', 'success');
-            } catch (err) {
-                console.error('Erreur de chargement des modèles:', err);
-                showAlert('Erreur de chargement des modèles de détection', 'error');
-                detectionStatus.innerHTML = '<i class="ti ti-alert-triangle"></i> Erreur';
-            }
-        }
+                // Use 'wss' protocol and port 8443 as requested
+                ws = new WebSocket('wss://localhost:8443/ws/biometric-events');
 
-        // Démarrer la webcam
-        async function startWebcam() {
-            try {
-                detectionStatus.className = 'detection-status status-loading';
-                detectionStatus.innerHTML = '<i class="ti ti-loader"></i> Démarrage...';
+                ws.onopen = () => {
+                    console.log('WebSocket Connected');
+                    wsRetries = 0;
+                };
 
-                stream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 },
-                        facingMode: 'user'
+                ws.onmessage = (event) => {
+                    try {
+                        const payload = JSON.parse(event.data);
+                        handleWebSocketMessage(payload);
+                    } catch (e) {
+                        console.error('Error parsing WS message', e);
                     }
-                });
+                };
 
-                video.srcObject = stream;
-                isRecording = true;
-                startBtn.innerHTML = '<i class="ti ti-video-off"></i> Arrêter';
-                startBtn.className = 'btn btn-stop';
-                captureBtn.disabled = false;
+                ws.onerror = (error) => {
+                    console.error('WebSocket Error', error);
+                };
 
-                showAlert('Webcam activée avec succès', 'success');
-
-                video.addEventListener('loadeddata', async () => {
-                    overlay.width = video.videoWidth;
-                    overlay.height = video.videoHeight;
-
-                    await loadModels();
-                    startFaceDetection();
-                });
-
-            } catch (err) {
-                showAlert('Erreur d\'accès à la webcam: ' + err.message, 'error');
-                console.error('Erreur d\'accès à la webcam:', err);
-                stopWebcam();
-            }
-        }
-
-        // Arrêter la webcam
-        function stopWebcam() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
+                ws.onclose = () => {
+                    console.log('WebSocket Closed');
+                    ws = null;
+                    // Auto-reconnect if supposed to be running
+                    if (isRunning && wsRetries < 5) {
+                        setTimeout(() => {
+                            wsRetries++;
+                            connectWebSocket();
+                        }, 2000);
+                    }
+                };
             }
 
-            if (detectionInterval) {
-                clearInterval(detectionInterval);
-                detectionInterval = null;
+            function disconnectWebSocket() {
+                if (ws) {
+                    ws.close();
+                    ws = null;
+                }
             }
 
-            isRecording = false;
-            startBtn.innerHTML = '<i class="ti ti-video"></i> Démarrer';
-            startBtn.className = 'btn btn-start';
-            captureBtn.disabled = true;
-            video.srcObject = null;
-
-            // Réinitialiser l'interface
-            videoContainer.classList.remove('face-detected', 'no-face-detected');
-            detectionStatus.className = 'detection-status status-no-face';
-            detectionStatus.innerHTML = '<i class="ti ti-video-off"></i> Arrêtée';
-
-            // Réinitialiser les métriques
-            updateMetric('face', '0', 'bad');
-            updateMetric('clarity', '0%', 'bad');
-            updateMetric('brightness', '0%', 'bad');
-            updateMetric('contrast', '0%', 'bad');
-            updateMetric('liveness', '-', 'bad');
-            updateMetric('age', '-', 'bad');
-            updateMetric('gender', '-', 'bad');
-            updateMetric('glasses', '-', 'bad');
-
-            showAlert('Webcam arrêtée', 'info');
-        }
-
-        // Détecter les visages en temps réel
-        async function startFaceDetection() {
-            if (!modelsLoaded) return;
-
-            detectionInterval = setInterval(async () => {
-                if (video.readyState === 4) {
-                    const detections = await faceapi.detectAllFaces(
-                        video,
-                        new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.5 })
-                    ).withFaceLandmarks().withAgeAndGender();
-
-                    const ctx = overlay.getContext('2d');
-                    ctx.clearRect(0, 0, overlay.width, overlay.height);
-
-                    if (detections.length > 0) {
-                        // Visage détecté
-                        faceDetected = true;
-                        videoContainer.classList.remove('no-face-detected');
-                        videoContainer.classList.add('face-detected');
-                        detectionStatus.className = 'detection-status status-detected';
-                        detectionStatus.innerHTML = `<i class="ti ti-check"></i> Visage détecté`;
-                        captureBtn.disabled = false;
-
-                        // Mettre à jour les métriques
-                        updateMetric('face', detections.length, 'good');
-
-                        const detection = detections[0];
-                        const confidence = Math.round(detection.detection.score * 100);
-                        updateMetric('clarity', `${confidence}%`, confidence > 70 ? 'good' : 'warning');
-
-                        // Calculer des métriques simulées
-                        updateMetric('brightness', `${Math.floor(Math.random() * 30 + 70)}%`, 'good');
-                        updateMetric('contrast', `${Math.floor(Math.random() * 30 + 70)}%`, 'good');
-                        updateMetric('liveness', `${Math.floor(Math.random() * 30 + 70)}%`, 'good');
-
-                        // Âge et genre
-                        if (detection.age) {
-                            updateMetric('age', Math.round(detection.age), 'good');
-                        }
-
-                        if (detection.gender) {
-                            const gender = detection.gender === 'male' ? 'Homme' : 'Femme';
-                            updateMetric('gender', gender, 'good');
-                        }
-
-                        updateMetric('glasses', 'Non', 'good');
-
-                        // Dessiner le rectangle autour du visage
-                        detections.forEach(detection => {
-                            const box = detection.detection.box;
-                            ctx.strokeStyle = '#2ed8b6';
-                            ctx.lineWidth = 3;
-                            ctx.strokeRect(box.x, box.y, box.width, box.height);
-                        });
-                    } else {
-                        // Aucun visage détecté
-                        faceDetected = false;
-                        videoContainer.classList.remove('face-detected');
-                        videoContainer.classList.add('no-face-detected');
-                        detectionStatus.className = 'detection-status status-no-face';
-                        detectionStatus.innerHTML = '<i class="ti ti-face-id-error"></i> Aucun visage';
-                        captureBtn.disabled = true;
-
-                        // Mettre à jour les métriques
+            function handleWebSocketMessage(payload) {
+                if (payload.type === 'QUALITY_METRICS') {
+                    const metrics = retrieveMetrics(payload.message);
+                    updateUIWithMetrics(metrics);
+                    // If we get metrics, it implies a face is detected and processed
+                    updateMetric('face', '1', 'good');
+                } else if (payload.type === 'QUALITY_CHECK') {
+                    if (payload.message.includes('Aucun visage')) {
                         updateMetric('face', '0', 'bad');
-                        updateMetric('clarity', '0%', 'bad');
-                        updateMetric('brightness', '0%', 'bad');
-                        updateMetric('contrast', '0%', 'bad');
-                        updateMetric('liveness', '-', 'bad');
-                        updateMetric('age', '-', 'bad');
-                        updateMetric('gender', '-', 'bad');
-                        updateMetric('glasses', '-', 'bad');
+                        resetMetrics();
+                    } else if (payload.message.includes('Deux visages')) {
+                        updateMetric('face', '2', 'warning');
+                    } else if (payload.message.includes('Plusieurs visages')) { // Handle potential other messages
+                        updateMetric('face', '2+', 'warning');
                     }
                 }
-            }, 200);
-        }
-
-        // Capturer la photo
-        captureBtn.addEventListener('click', function() {
-            if (!faceDetected) {
-                showAlert('Veuillez positionner votre visage devant la caméra', 'error');
-                return;
             }
 
-            // Arrêter temporairement la détection
-            if (detectionInterval) {
-                clearInterval(detectionInterval);
+            function updateUIWithMetrics(metrics) {
+                if (metrics['Netteté'] !== undefined) updateMetric('clarity', Math.round(metrics['Netteté']), 'neutral');
+                if (metrics['Luminosité'] !== undefined) updateMetric('brightness', Math.round(metrics['Luminosité']),
+                    'neutral');
+                if (metrics['Contraste'] !== undefined) updateMetric('contrast', Math.round(metrics['Contraste']), 'neutral');
+                if (metrics['Bouche'] !== undefined) updateMetric('mouth', metrics['Bouche'] > 0 ? "🟩" : "🟥", 'neutral');
+                if (metrics['Œil D'] !== undefined) updateMetric('right-eye', metrics['Œil D'] > 0 ? "🟩" : "🟥", 'neutral');
+                if (metrics['Œil G'] !== undefined) updateMetric('left-eye', metrics['Œil G'] > 0 ? "🟩" : "🟥", 'neutral');
+                if (metrics['Lunettes'] !== undefined) updateMetric('glasses', metrics['Lunettes'] < 0 ? "🟩" : "🟥",
+                    'neutral');
+                if (metrics['Liveness'] !== undefined) updateMetric('liveness', metrics['Liveness'] > 80 ? "🟩" : "🟥",
+                    'neutral');
+                if (metrics['Age'] !== undefined) updateMetric('age', Math.round(metrics['Age']), 'neutral');
+                if (metrics['Gender'] !== undefined) updateMetric('gender', metrics['Gender'] < 0 ? "Homme" :
+                    "<span style='color: pink'>Femme</span>", 'neutral');
             }
 
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            function resetMetrics() {
+                updateMetric('clarity', '0%', 'neutral');
+                updateMetric('brightness', '0%', 'neutral');
+                updateMetric('contrast', '0%', 'neutral');
+                updateMetric('mouth', '-', 'neutral');
+                updateMetric('right-eye', '-', 'neutral');
+                updateMetric('left-eye', '-', 'neutral');
+                updateMetric('glasses', '-', 'neutral');
+                updateMetric('liveness', '-', 'neutral');
+                updateMetric('age', '-', 'neutral');
+                updateMetric('gender', '-', 'neutral');
+            }
 
-            capturedData = canvas.toDataURL('image/png');
-            capturedImage.src = capturedData;
-
-            // Afficher l'image capturée
-            placeholder.style.display = 'none';
-            capturedImage.style.display = 'block';
-            captureContainer.style.border = '3px solid #2ed8b6';
-            captureContainer.style.borderStyle = 'solid';
-
-            // Activer le bouton d'identification
-            identifyBtn.disabled = false;
-
-            showAlert('Capture réussie! Visage correctement capturé.', 'success');
-
-            // Redémarrer la détection après capture
-            setTimeout(() => {
-                if (isRecording) {
-                    startFaceDetection();
+            function updateMetric(id, value, status) {
+                const el = document.getElementById('m-' + id);
+                if (el) {
+                    el.textContent = value;
+                    // Reset classes and add new status
+                    el.className = 'metric-value ' + status;
                 }
-            }, 1000);
-        });
-
-        // Identifier le visage
-        identifyBtn.addEventListener('click', async function() {
-            if (!capturedData) {
-                showAlert('Aucune capture à identifier', 'error');
-                return;
             }
 
-            identifyBtn.disabled = true;
-            identifyBtn.innerHTML = '<i class="ti ti-loader"></i> Identification...';
+            captureBtn.addEventListener('click', async () => {
+                if (!isRunning) return;
 
-            try {
-                // Simulation d'identification
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                try {
+                    const response = await fetch('https://localhost:8443/capture-live');
+                    const data = await response.json();
 
-                showAlert('Identification terminée! Visage reconnu avec succès.', 'success');
+                    if (data.image) {
+                        // Display image
+                        // Check if base64 prefix is present, if not add it
+                        const base64Image = data.image.startsWith('data:image') ? data.image :
+                            `data:image/jpeg;base64,${data.image}`;
 
-                // Mettre à jour les métriques avec des valeurs améliorées
-                updateMetric('clarity', '92%', 'good');
-                updateMetric('brightness', '88%', 'good');
-                updateMetric('contrast', '85%', 'good');
-                updateMetric('liveness', '95%', 'good');
+                        capturedImage.src = base64Image;
+                        capturedImage.style.display = 'block';
+                        identifyBtn.disabled = false;
+                        placeholder.style.display = 'none';
 
-                identifyBtn.innerHTML = '<i class="ti ti-check"></i> Identifié';
-                setTimeout(() => {
-                    identifyBtn.innerHTML = '<i class="ti ti-search"></i> Identifier';
-                    identifyBtn.disabled = false;
-                }, 3000);
+                        const captureMetrics = document.getElementById('capture-metrics');
 
-            } catch (error) {
-                showAlert('Erreur lors de l\'identification: ' + error.message, 'error');
-                identifyBtn.innerHTML = '<i class="ti ti-search"></i> Identifier';
-                identifyBtn.disabled = false;
+                        if (data.metrics) {
+
+                            captureMetrics.innerHTML = "";
+                            captureMetrics.style.display = "block";
+
+                            const m = data.metrics;
+
+                            // Netteté
+                            if (m.sharpness <= 5000) {
+                                captureMetrics.innerHTML += `
+                                <div class="metric-line">
+                                    <span class="metric-label">Netteté insuffisante</span>
+                                    <span class="metric-value bad">🟥</span>
+                                </div>`;
+                            }
+
+                            // Luminosité (normalisation)
+                            const brightness = ((m.brightness + 10000) / 20000) * 100;
+                            if (brightness < 50 || brightness > 80) {
+                                captureMetrics.innerHTML += `
+                                <div class="metric-line">
+                                    <span class="metric-label">Luminosité non idéale</span>
+                                    <span class="metric-value bad">🟥</span>
+                                </div>`;
+                            }
+
+                            // Contraste
+                            const contrast = ((m.contrast + 10000) / 20000) * 100;
+                            if (contrast <= 50) {
+                                captureMetrics.innerHTML += `
+                                <div class="metric-line">
+                                    <span class="metric-label">Contraste insuffisant</span>
+                                    <span class="metric-value bad">🟥</span>
+                                </div>`;
+                            }
+
+                            // Liveness
+                            if (m.fastPassiveLiveness <= 85) {
+                                captureMetrics.innerHTML += `
+                                <div class="metric-line">
+                                    <span class="metric-label">Liveness insuffisant</span>
+                                    <span class="metric-value bad">🟥</span>
+                                </div>`;
+                            }
+
+                            // Lunettes
+                            if (m.glassStatus > 0) {
+                                captureMetrics.innerHTML += `
+                                <div class="metric-line">
+                                    <span class="metric-label">Retirez les lunettes</span>
+                                    <span class="metric-value bad">🟥</span>
+                                </div>`;
+                            }
+
+                            // Œil droit
+                            if (m.rightEyeStatus <= 0) {
+                                captureMetrics.innerHTML += `
+                                <div class="metric-line">
+                                    <span class="metric-label">Œil droit fermé</span>
+                                    <span class="metric-value bad">🟥</span>
+                                </div>`;
+                            }
+
+                            // Œil gauche
+                            if (m.leftEyeStatus <= 0) {
+                                captureMetrics.innerHTML += `
+                                <div class="metric-line">
+                                    <span class="metric-label">Œil gauche fermé</span>
+                                    <span class="metric-value bad">🟥</span>
+                                </div>`;
+                            }
+
+                            // Bouche (si tu veux bouche fermée)
+                            if (m.mouthStatus < 0) {
+                                captureMetrics.innerHTML += `
+                                <div class="metric-line">
+                                    <span class="metric-label">Bouche ouverte</span>
+                                    <span class="metric-value bad">🟥</span>
+                                </div>`;
+                            }
+
+                            // Si aucune erreur
+                            if (captureMetrics.innerHTML === "") {
+                                captureMetrics.innerHTML = `
+                                <div class="metric-line">
+                                    <span class="metric-label" style="color:green;">Capture valide</span>
+                                    <span class="metric-value good">🟢</span>
+                                </div>`;
+                            }
+                        }
+
+
+                    } else {
+                        console.error('No image data in response');
+                        console.log("No image data in response");
+                        setStatus('status-disconnected', 'Erreur Capture', 'ti ti-alert-circle');
+                    }
+
+                } catch (error) {
+                    console.error('Capture error:', error);
+                    console.log("Capture error");
+                    setStatus('status-disconnected', 'Erreur Capture', 'ti ti-alert-circle');
+                }
+            });
+
+            identifyBtn.addEventListener('click', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Erreur d\'identification',
+                })
+            });
+
+            function setStatus(type, text, icon) {
+                statusIndicator.classList.remove(
+                    'status-connected',
+                    'status-disconnected',
+                    'status-connecting'
+                );
+
+                statusIndicator.classList.add(type);
+                statusIndicator.innerHTML = `<i class="${icon}"></i><span>${text}</span>`;
             }
-        });
 
-        identifyBtn.onclick= () =>{
-            windows.location.href = "{{ route('biometrie.getPatient') }}";
-        }
-
-        // Démarrer/arrêter la webcam
-        startBtn.addEventListener('click', function() {
-            if (!isRecording) {
-                startWebcam();
-            } else {
-                stopWebcam();
+            function updateButtonState(running) {
+                isRunning = running;
+                if (running) {
+                    startBtn.innerHTML = '<i class="ti ti-player-stop"></i> Arrêter';
+                    startBtn.classList.remove('btn-start');
+                    startBtn.classList.add('btn-stop');
+                    captureBtn.disabled = false;
+                    Object.assign(video.style, {
+                        display: 'block'
+                    });
+                    Object.assign(videoPlaceholder.style, {
+                        display: 'none'
+                    });
+                    video.src = 'https://localhost:8443/video-live';
+                    connectWebSocket();
+                } else {
+                    startBtn.innerHTML = '<i class="ti ti-video"></i> Démarrer';
+                    startBtn.classList.remove('btn-stop');
+                    startBtn.classList.add('btn-start');
+                    captureBtn.disabled = true;
+                    Object.assign(video.style, {
+                        display: 'none'
+                    });
+                    Object.assign(videoPlaceholder.style, {
+                        display: 'flex'
+                    });
+                    video.src = '';
+                    disconnectWebSocket();
+                }
             }
-        });
 
-        // Nettoyer à la fermeture
-        window.addEventListener('beforeunload', function() {
-            stopWebcam();
-        });
+            async function checkStatus() {
+                try {
+                    const response = await fetch('https://localhost:8443/status-live');
+                    const data = await response.json();
 
-        // Initialiser les métriques
-        updateMetric('face', '0', 'bad');
-        updateMetric('clarity', '0%', 'bad');
-        updateMetric('brightness', '0%', 'bad');
-        updateMetric('contrast', '0%', 'bad');
-        updateMetric('liveness', '-', 'bad');
-        updateMetric('age', '-', 'bad');
-        updateMetric('gender', '-', 'bad');
-        updateMetric('glasses', '-', 'bad');
-    </script>
+                    if (data.running === true) {
+                        setStatus('status-connected', 'Connecté', 'ti ti-wifi');
+                        updateButtonState(true);
+                    } else {
+                        setStatus('status-disconnected', 'Déconnecté', 'ti ti-wifi-off');
+                        updateButtonState(false);
+                    }
+                } catch (error) {
+                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
+                    updateButtonState(false);
+                }
+            }
+
+            startBtn.addEventListener('click', async () => {
+                if (isRunning) {
+                    try {
+                        await fetch('https://localhost:8443/stop-live');
+                        await checkStatus();
+                    } catch (error) {
+                        console.error('Stop failed:', error);
+                    }
+                    return;
+                }
+
+                try {
+                    setStatus('status-connecting', 'Connexion...', 'ti ti-loader');
+
+                    const response = await fetch('https://localhost:8443/start-live');
+                    const data = await response.json();
+
+                    if (data.status === 'started') {
+                        await checkStatus();
+                        console.log('started');
+                    } else {
+                        setStatus('status-disconnected', 'Échec', 'ti ti-wifi-off');
+                    }
+
+                } catch (error) {
+                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
+                }
+            });
+
+
+            checkStatus();
+        </script>
     @endsection
 </x-app-layout>

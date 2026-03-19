@@ -34,7 +34,8 @@ class User extends Authenticatable
         'photo',
         'gender',
         'remember_token',
-        'canprintfamily'
+        'canprintfamily',
+        'canbiometrie'
     ];
 
     /**

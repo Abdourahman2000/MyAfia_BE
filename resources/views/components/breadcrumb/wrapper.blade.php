@@ -10,7 +10,7 @@
         </nav>
     </div>
 
-    @if ($type == 'normal')
+    @if ($type != 'normal')
         <div class="btn-list">
             <a href="#" class="mb-4" style="margin: 0">
                 <button class="btn btn-primary btn-wave label-btn" style="margin:0; padding:.3rem 3rem">
@@ -21,7 +21,7 @@
         </div>
     @endif
 
-    @if ($type == 'Retour')
+    {{-- @if ($type == 'Retour')
         <div>
             <button
                 style="padding:5px 15px; background:#f61a1aff; color:white; border:none; cursor:pointer; border-radius:15px;"
@@ -32,7 +32,7 @@
             </button>
 
         </div>
-    @endif
+    @endif --}}
 
 </div>
 <!-- Page Header Close -->

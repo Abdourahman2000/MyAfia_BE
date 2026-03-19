@@ -150,14 +150,14 @@
             }
 
             /* .face-detected {
-                                                                                                                                    border-color: #2ed8b6 !important;
-                                                                                                                                    box-shadow: 0 0 15px rgba(46, 216, 182, 0.3) !important;
-                                                                                                                                }
+                                                                    border-color: #2ed8b6 !important;
+                                                                    box-shadow: 0 0 15px rgba(46, 216, 182, 0.3) !important;
+                                                                }
 
-                                                                                                                                .no-face-detected {
-                                                                                                                                    border-color: #FF5370 !important;
-                                                                                                                                    box-shadow: 0 0 15px rgba(255, 83, 112, 0.3) !important;
-                                                                                                                                } */
+                                                                .no-face-detected {
+                                                                    border-color: #FF5370 !important;
+                                                                    box-shadow: 0 0 15px rgba(255, 83, 112, 0.3) !important;
+                                                                } */
 
             /* ===== CAPTURE ===== */
             .capture-container {
@@ -317,110 +317,110 @@
             }
 
             /* .metric-value.good {
-                                                                                                                                    color: #2ed8b6;
-                                                                                                                                }
+                                                                    color: #2ed8b6;
+                                                                }
 
-                                                                                                                                .metric-value.bad {
-                                                                                                                                    color: #FF5370;
-                                                                                                                                }
+                                                                .metric-value.bad {
+                                                                    color: #FF5370;
+                                                                }
 
-                                                                                                                                .metric-value.neutral {
-                                                                                                                                    color: #4099ff;
-                                                                                                                                }
+                                                                .metric-value.neutral {
+                                                                    color: #4099ff;
+                                                                }
 
-                                                                                                                                .metric-value.warning {
-                                                                                                                                    color: #FFB64D;
-                                                                                                                                } */
+                                                                .metric-value.warning {
+                                                                    color: #FFB64D;
+                                                                } */
 
             /* ===== PROGRESS BARS ===== */
             /* .metric-progress {
-                                                                                                                                    width: 100%;
-                                                                                                                                    height: 6px;
-                                                                                                                                    background: #e5e7eb;
-                                                                                                                                    border-radius: 3px;
-                                                                                                                                    margin-top: 6px;
-                                                                                                                                    overflow: hidden;
-                                                                                                                                }
+                                                                    width: 100%;
+                                                                    height: 6px;
+                                                                    background: #e5e7eb;
+                                                                    border-radius: 3px;
+                                                                    margin-top: 6px;
+                                                                    overflow: hidden;
+                                                                }
 
-                                                                                                                                .progress-bar {
-                                                                                                                                    height: 100%;
-                                                                                                                                    border-radius: 3px;
-                                                                                                                                    transition: width 0.5s ease;
-                                                                                                                                } */
+                                                                .progress-bar {
+                                                                    height: 100%;
+                                                                    border-radius: 3px;
+                                                                    transition: width 0.5s ease;
+                                                                } */
 
             /* ===== ALERTES ===== */
             /* .alert-container {
-                                                                                                                                    margin-bottom: 20px;
-                                                                                                                                }
+                                                                    margin-bottom: 20px;
+                                                                }
 
-                                                                                                                                .alert {
-                                                                                                                                    padding: 12px 16px;
-                                                                                                                                    border-radius: 8px;
-                                                                                                                                    margin-bottom: 15px;
-                                                                                                                                    display: flex;
-                                                                                                                                    align-items: center;
-                                                                                                                                    gap: 10px;
-                                                                                                                                    font-size: 14px;
-                                                                                                                                    border-left: 4px solid;
-                                                                                                                                }
+                                                                .alert {
+                                                                    padding: 12px 16px;
+                                                                    border-radius: 8px;
+                                                                    margin-bottom: 15px;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                    gap: 10px;
+                                                                    font-size: 14px;
+                                                                    border-left: 4px solid;
+                                                                }
 
-                                                                                                                                .alert-success {
-                                                                                                                                    background-color: rgba(46, 216, 182, 0.1);
-                                                                                                                                    border-color: #2ed8b6;
-                                                                                                                                    color: #0f766e;
-                                                                                                                                }
+                                                                .alert-success {
+                                                                    background-color: rgba(46, 216, 182, 0.1);
+                                                                    border-color: #2ed8b6;
+                                                                    color: #0f766e;
+                                                                }
 
-                                                                                                                                .alert-error {
-                                                                                                                                    background-color: rgba(255, 83, 112, 0.1);
-                                                                                                                                    border-color: #FF5370;
-                                                                                                                                    color: #be123c;
-                                                                                                                                }
+                                                                .alert-error {
+                                                                    background-color: rgba(255, 83, 112, 0.1);
+                                                                    border-color: #FF5370;
+                                                                    color: #be123c;
+                                                                }
 
-                                                                                                                                .alert-info {
-                                                                                                                                    background-color: rgba(64, 153, 255, 0.1);
-                                                                                                                                    border-color: #4099ff;
-                                                                                                                                    color: #1e40af;
-                                                                                                                                }
+                                                                .alert-info {
+                                                                    background-color: rgba(64, 153, 255, 0.1);
+                                                                    border-color: #4099ff;
+                                                                    color: #1e40af;
+                                                                }
 
-                                                                                                                                .alert i {
-                                                                                                                                    font-size: 18px;
-                                                                                                                                } */
+                                                                .alert i {
+                                                                    font-size: 18px;
+                                                                } */
 
             /* ===== DETECTION STATUS ===== */
             /* .detection-status {
-                                                                                                                                    position: absolute;
-                                                                                                                                    top: 10px;
-                                                                                                                                    left: 50%;
-                                                                                                                                    transform: translateX(-50%);
-                                                                                                                                    padding: 8px 16px;
-                                                                                                                                    border-radius: 20px;
-                                                                                                                                    font-size: 12px;
-                                                                                                                                    font-weight: 600;
-                                                                                                                                    z-index: 10;
-                                                                                                                                    background: rgba(255, 255, 255, 0.9);
-                                                                                                                                    border: 1px solid;
-                                                                                                                                    display: flex;
-                                                                                                                                    align-items: center;
-                                                                                                                                    gap: 6px;
-                                                                                                                                }
+                                                                    position: absolute;
+                                                                    top: 10px;
+                                                                    left: 50%;
+                                                                    transform: translateX(-50%);
+                                                                    padding: 8px 16px;
+                                                                    border-radius: 20px;
+                                                                    font-size: 12px;
+                                                                    font-weight: 600;
+                                                                    z-index: 10;
+                                                                    background: rgba(255, 255, 255, 0.9);
+                                                                    border: 1px solid;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                    gap: 6px;
+                                                                }
 
-                                                                                                                                .status-detected {
-                                                                                                                                    background: rgba(46, 216, 182, 0.1);
-                                                                                                                                    border-color: #2ed8b6;
-                                                                                                                                    color: #2ed8b6;
-                                                                                                                                }
+                                                                .status-detected {
+                                                                    background: rgba(46, 216, 182, 0.1);
+                                                                    border-color: #2ed8b6;
+                                                                    color: #2ed8b6;
+                                                                }
 
-                                                                                                                                .status-no-face {
-                                                                                                                                    background: rgba(255, 83, 112, 0.1);
-                                                                                                                                    border-color: #FF5370;
-                                                                                                                                    color: #FF5370;
-                                                                                                                                }
+                                                                .status-no-face {
+                                                                    background: rgba(255, 83, 112, 0.1);
+                                                                    border-color: #FF5370;
+                                                                    color: #FF5370;
+                                                                }
 
-                                                                                                                                .status-loading {
-                                                                                                                                    background: rgba(64, 153, 255, 0.1);
-                                                                                                                                    border-color: #4099ff;
-                                                                                                                                    color: #4099ff;
-                                                                                                                                } */
+                                                                .status-loading {
+                                                                    background: rgba(64, 153, 255, 0.1);
+                                                                    border-color: #4099ff;
+                                                                    color: #4099ff;
+                                                                } */
 
             /* ===== CANVAS OVERLAY ===== */
             #overlay {
@@ -634,108 +634,6 @@
             //     .catch(function(err) {
             //         console.error('Erreur d\'accès à la caméra :', err);
             //     });
-
-            function setStatus(type, text, icon) {
-                statusIndicator.classList.remove(
-                    'status-connected',
-                    'status-disconnected',
-                    'status-connecting'
-                );
-
-                statusIndicator.classList.add(type);
-                statusIndicator.innerHTML = `<i class="${icon}"></i><span>${text}</span>`;
-            }
-
-            async function checkStatus() {
-                try {
-                    const response = await fetch('https://localhost:8443/status-live');
-                    const data = await response.json();
-
-                    if (data.running === true) {
-                        setStatus('status-connected', 'Connecté', 'ti ti-wifi');
-                        updateButtonState(true);
-                    } else {
-                        setStatus('status-disconnected', 'Déconnecté', 'ti ti-wifi-off');
-                        updateButtonState(false);
-                    }
-                } catch (error) {
-                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
-                    updateButtonState(false);
-                }
-            }
-
-            // const videoImgRef = async () => {
-            //     const url = await fetch('https://localhost:8443/video-live');
-            //     Object.assign(video.style, {
-            //         display: 'block'
-            //     });
-            //     Object.assign(videoPlaceholder.style, {
-            //         display: 'none'
-            //     });
-            //     video.src = url;
-            // }
-
-            function updateButtonState(running) {
-                isRunning = running;
-                if (running) {
-                    startBtn.innerHTML = '<i class="ti ti-player-stop"></i> Arrêter';
-                    startBtn.classList.remove('btn-start');
-                    startBtn.classList.add('btn-stop');
-                    captureBtn.disabled = false;
-                    Object.assign(video.style, {
-                        display: 'block'
-                    });
-                    Object.assign(videoPlaceholder.style, {
-                        display: 'none'
-                    });
-                    video.src = 'https://localhost:8443/video-live';
-                    connectWebSocket();
-                } else {
-                    startBtn.innerHTML = '<i class="ti ti-video"></i> Démarrer';
-                    startBtn.classList.remove('btn-stop');
-                    startBtn.classList.add('btn-start');
-                    captureBtn.disabled = true;
-                    Object.assign(video.style, {
-                        display: 'none'
-                    });
-                    Object.assign(videoPlaceholder.style, {
-                        display: 'flex'
-                    });
-                    video.src = '';
-                    disconnectWebSocket();
-                }
-            }
-
-            startBtn.addEventListener('click', async () => {
-                if (isRunning) {
-                    try {
-                        await fetch('https://localhost:8443/stop-live');
-                        await checkStatus();
-                    } catch (error) {
-                        console.error('Stop failed:', error);
-                    }
-                    return;
-                }
-
-                try {
-                    setStatus('status-connecting', 'Connexion...', 'ti ti-loader');
-
-                    const response = await fetch('https://localhost:8443/start-live');
-                    const data = await response.json();
-
-                    if (data.status === 'started') {
-                        await checkStatus();
-                        console.log('started');
-                    } else {
-                        setStatus('status-disconnected', 'Échec', 'ti ti-wifi-off');
-                    }
-
-                } catch (error) {
-                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
-                }
-            });
-
-            checkStatus();
 
             const retrieveMetrics = (message) => {
                 let regex = /([^|:]+):\s*([-+]?\d+(?:\.\d+)?)/g;
@@ -976,60 +874,47 @@
                 }
             });
 
-            identifyBtn.addEventListener('click', function() {
-                // Swal.fire({
-                //     icon: 'error',
-                //     title: 'Oops...',
-                //     text: 'Erreur d\'identification',
-                // })
-
-                sendBiometricData(capturedImage.src);
-                // console.log(capturedImage.src);
-            });
-
             const getToken = async () => {
-                const response = await fetch("https://10.30.30.22/api/Login/machine-login", {
-                    method: "POST",
+                const response = await fetch('https://10.30.30.22/api/Login/machine-login', {
+                    method: 'POST',
                     headers: {
-                        "Content-Type": "application/json",
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        clientId: "service1",
-                        clientSecret: "qX7!fL9$2vB#8kP1zN@5rT6mY*QwE4sH"
-                    }),
+                        clientId: 'service1',
+                        clientSecret: 'qX7!fL9$2vB#8kP1zN@5rT6mY*QwE4sH'
+                    })
                 });
-                console.log("response:", response);
+
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error(`Erreur login ${response.status}: ${text}`);
+                }
+
                 const data = await response.json();
-                // console.log("data:", data.token);
                 return data.token;
-            }
-            // Envoi de la capture au backend pour la vérification
+            };
+
             const sendBiometricData = async (capturedImage) => {
                 try {
+                    // 1. Récupérer le token
+                    const token = await getToken();
+
+                    // 2. Préparer le FormData avec l'image
                     const formData = new FormData();
                     const response = await fetch(capturedImage);
                     const blob = await response.blob();
                     formData.append("request", blob, "Face.png");
                     console.log([...formData.entries()]);
 
-                    const token = await getToken();
-                    const url = "https://10.30.30.22/api/Enrollement/check";
-                    const res = await fetch(url, {
+                    // 3. Envoyer l'image avec le token
+                    const res = await fetch(`https://10.30.30.22/api/Enrollement/check`, {
                         method: "POST",
                         headers: {
-                            "Authorization": `Bearer ${token}`,
+                            'Authorization': `Bearer ${token}`
                         },
                         body: formData,
                     });
-
-                    // 404 = personne non trouvée dans la base ABIS (pas une erreur technique)
-                    if (res.status === 404) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Personne non identifiée',
-                        })
-                    }
 
                     if (!res.ok) {
                         const text = await res.text();
@@ -1037,26 +922,192 @@
                     }
 
                     const data = await res.json();
-                    console.log("Réponse backend:", data);
+                    // console.log("Réponse backend:", data);
                     // Données démographiques associées à la personne identifiée et envoyées par le moteur ABIS
-                    console.log("Personne identifiée:", {
-                        idPersonne: data.idPersonne,
-                        nom: data.nom,
-                        prenom: data.prenom,
-                        dateNaiss: data.dateNaiss,
-                        numeroBeneficiaire: data.numeroBeneficiaire,
-                        numeroAssure: data.numeroAssure,
-                        sexe: data.sexe,
-                        regime: data.regime,
-                        ftpFace: data.ftpFace,
-                        hasRight: data.hasRight,
-                        beneficiaires: data.beneficiaire
-                    });
+                    // setPerson({
+                    //     idPersonne: data.idPersonne,
+                    //     nom: data.nom,
+
+                    //     //Guide d'Implémentation - Service de Reconnaissance Faciale de reconnaissance faciale 8
+
+                    //     prenom: data.prenom,
+                    //     dateNaiss: data.dateNaiss,
+                    //     numeroBeneficiaire: data.numeroBeneficiaire,
+                    //     numeroAssure: data.numeroAssure,
+                    //     sexe: data.sexe,
+                    //     regime: data.regime,
+                    //     ftpFace: data.ftpFace,
+                    //     hasRight: data.hasRight,
+                    //     beneficiaires: data.beneficiaire // tableau de personne
+                    // });
                 } catch (error) {
                     console.error("Erreur lors de l'envoi des données biométriques:", error);
                     throw error;
                 }
+            };
+
+            identifyBtn.addEventListener('click', function() {
+                sendBiometricData(capturedImage.src);
+                // if(person.idPersonne){
+
+                // }
+            });
+
+            function setStatus(type, text, icon) {
+                statusIndicator.classList.remove(
+                    'status-connected',
+                    'status-disconnected',
+                    'status-connecting'
+                );
+
+                statusIndicator.classList.add(type);
+                statusIndicator.innerHTML = `<i class="${icon}"></i><span>${text}</span>`;
             }
+
+            function updateButtonState(running) {
+                isRunning = running;
+                if (running) {
+                    startBtn.innerHTML = '<i class="ti ti-player-stop"></i> Arrêter';
+                    startBtn.classList.remove('btn-start');
+                    startBtn.classList.add('btn-stop');
+                    captureBtn.disabled = false;
+                    Object.assign(video.style, {
+                        display: 'block'
+                    });
+                    Object.assign(videoPlaceholder.style, {
+                        display: 'none'
+                    });
+                    video.src = 'https://localhost:8443/video-live';
+                    connectWebSocket();
+                } else {
+                    startBtn.innerHTML = '<i class="ti ti-video"></i> Démarrer';
+                    startBtn.classList.remove('btn-stop');
+                    startBtn.classList.add('btn-start');
+                    captureBtn.disabled = true;
+                    Object.assign(video.style, {
+                        display: 'none'
+                    });
+                    Object.assign(videoPlaceholder.style, {
+                        display: 'flex'
+                    });
+                    video.src = '';
+                    disconnectWebSocket();
+                }
+            }
+
+            async function checkStatus() {
+                try {
+                    const response = await fetch('https://localhost:8443/status-live');
+                    const data = await response.json();
+
+                    if (data.running === true) {
+                        setStatus('status-connected', 'Connecté', 'ti ti-wifi');
+                        updateButtonState(true);
+                    } else {
+                        setStatus('status-disconnected', 'Déconnecté', 'ti ti-wifi-off');
+                        updateButtonState(false);
+                    }
+                } catch (error) {
+                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
+                    updateButtonState(false);
+                }
+            }
+
+            async function checkWebcam() {
+                try {
+                    // Demander la permission d'abord (indispensable)
+                    // await navigator.mediaDevices.getUserMedia({ video: true });
+
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+                    // Filtrer pour trouver une caméra qui n'est pas "intégrée"
+                    const externalCamera = videoDevices.find(device => {
+                        const label = device.label.toLowerCase();
+
+                        // Liste noire des termes techniques de caméras intégrées
+                        const internalTerms = [
+                            'integrated',
+                            'built-in',
+                            'facetime',
+                            'front',
+                            'ov02c10', // Votre capteur spécifique
+                            'camera vga'
+                        ];
+
+                        // On vérifie si le label contient l'un des termes de la liste noire
+                        const isInternal = internalTerms.some(term => label.includes(term));
+
+                        // On ne garde que ce qui n'est PAS interne ET qui a un nom
+                        return !isInternal && label.trim() !== '';
+                    });
+
+                    if (externalCamera) {
+                        console.log('Webcam externe détectée :', externalCamera.label);
+                        setStatus('status-connected', 'Détecté', 'ti ti-wifi');
+                        return true;
+                    } else {
+                        console.log('Seule la webcam intégrée ou aucune caméra externe détectée.');
+                        setStatus('status-disconnected', 'Non detecté', 'ti ti-wifi-off');
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Erreur d\'accès à la caméra :', error);
+                }
+            }
+
+            navigator.mediaDevices.ondevicechange = (event) => {
+                console.log("Changement de périphérique détecté...");
+                checkWebcam();
+            };
+
+            startBtn.addEventListener('click', async () => {
+                if (isRunning) {
+                    try {
+                        await fetch('https://localhost:8443/stop-live');
+                        updateButtonState(false);
+                        // await checkStatus();
+                    } catch (error) {
+                        console.error('Stop failed:', error);
+                    }
+                    return;
+                }
+
+                try {
+
+                    const webcamAvailable = await checkWebcam();
+
+                    if (!webcamAvailable) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Webcam introuvable',
+                            text: 'Aucune webcam détectée sur cet appareil'
+                        });
+
+                        return;
+                    }
+
+                    // setStatus('status-connecting', 'Connexion...', 'ti ti-loader');
+
+                    const response = await fetch('https://localhost:8443/start-live');
+                    const data = await response.json();
+
+                    if (data.status === 'started') {
+                        // await checkStatus();
+                        console.log('started');
+                        updateButtonState(true);
+                    } else {
+                        setStatus('status-disconnected', 'Échec', 'ti ti-wifi-off');
+                    }
+
+                } catch (error) {
+                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
+                }
+            });
+
+
+            // checkStatus();
+            checkWebcam();
         </script>
     @endsection
 </x-app-layout>

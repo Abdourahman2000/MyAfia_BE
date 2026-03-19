@@ -79,6 +79,33 @@
                             <option value="admin">Admin</option>
                         </select>
                     </div>
+                    <div class="col-12">
+                        <hr>
+                        <label class="form-label fw-bold">Privilèges</label>
+                        <div class="d-flex flex-wrap gap-4 mt-1">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="canprint" name="canprint"
+                                    value="1">
+                                <label class="form-check-label" for="canprint">Autoriser l'impression</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="canexcept" name="canexcept"
+                                    value="1">
+                                <label class="form-check-label" for="canexcept">Autoriser les exceptions</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="canprintfamily" name="canprintfamily"
+                                    value="1">
+                                <label class="form-check-label" for="canprintfamily">Autoriser l'impression
+                                    familiale</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="canbiometrie" name="canbiometrie"
+                                    value="1">
+                                <label class="form-check-label" for="canbiometrie">Autoriser la biométrisation</label>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Créer un utilisateur</button>

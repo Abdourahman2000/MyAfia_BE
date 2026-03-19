@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Reconnaissance Main Droite')
+    @section('title', 'Capture Empreintes Digitales')
 
     @section('css')
         <style>
@@ -14,18 +14,6 @@
                 display: flex;
                 align-items: center;
                 gap: 15px;
-            }
-
-            .biometric-title-icon {
-                width: 48px;
-                height: 48px;
-                background: #eaf1ff;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 24px;
-                color: #4a7dff;
             }
 
             .biometric-title h2 {
@@ -46,7 +34,6 @@
                 font-weight: 600;
                 padding: 8px 16px;
                 border-radius: 20px;
-                background: #fef2f2;
             }
 
             .status-connected {
@@ -64,226 +51,219 @@
                 background: #fffbeb;
             }
 
-            .biometric-card {
-                background: #ffffff;
-                border-radius: 16px;
-                padding: 30px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-                margin-bottom: 30px;
-            }
-
-            .biometric-grid {
+            .capture-layout {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 30px;
-                align-items: stretch;
             }
 
-            @media (max-width: 992px) {
-                .biometric-grid {
+            @media (max-width: 1200px) {
+                .capture-layout {
                     grid-template-columns: 1fr;
                 }
             }
 
-            .instructions-box {
-                background: linear-gradient(135deg, #eef4ff, #f7faff);
+            .card {
+                background: white;
                 border-radius: 16px;
                 padding: 25px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
             }
 
-            .instructions-box h4 {
-                font-weight: 700;
-                color: #1f2937;
+            .card h3 {
+                font-size: 1.3rem;
                 margin-bottom: 20px;
-            }
-
-            .instruction-item {
-                display: flex;
-                align-items: flex-start;
-                gap: 15px;
-                margin-bottom: 15px;
-            }
-
-            .instruction-number {
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                background: #4a7dff;
-                color: white;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
-            }
-
-            .scanner-box {
-                background: #ffffff;
-                border-radius: 16px;
-                padding: 20px;
-                border: 1px solid #e5e7eb;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .scanner-box h4 {
-                font-weight: 700;
-                margin-bottom: 15px;
+                border-bottom: 2px solid #4099ff;
+                padding-bottom: 10px;
+                color: #2c3e50;
             }
 
             .scanner-preview {
-                flex: 1;
-                border: 2px dashed #d1d5db;
-                border-radius: 16px;
+                position: relative;
+                aspect-ratio: 4 / 3;
+                border: 3px dashed #d1d5db;
+                border-radius: 12px;
+                background: #f9fafb;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                min-height: 300px;
-                gap: 15px;
-                transition: all 0.3s ease;
+                overflow: hidden;
+                margin-bottom: 15px;
             }
 
             .scanner-preview.active {
-                border-color: #4a7dff;
-                background: #f8fafc;
-            }
-
-            .scanner-preview.scanning {
                 border-color: #10b981;
-                background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-                animation: pulse 2s infinite;
+                border-style: solid;
+                box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
             }
 
-            .scanner-preview i {
-                font-size: 64px;
-                transition: all 0.3s ease;
+            .scanner-preview img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
             }
 
-            .scanner-preview.active i {
-                color: #4a7dff;
+            .placeholder-text {
+                color: #6b7280;
+                text-align: center;
+                padding: 20px;
             }
 
-            .scanner-preview.scanning i {
-                color: #10b981;
-                animation: bounce 1s infinite;
+            .placeholder-text i {
+                font-size: 48px;
+                margin-bottom: 10px;
+                display: block;
+                color: #cbd5e1;
             }
 
-            .preview-status {
+            .btn-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .btn {
+                padding: 14px;
+                border-radius: 10px;
+                border: none;
+                color: white;
                 font-weight: 600;
-                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
             }
 
-            .finger-diagram {
-                margin-top: 20px;
+            .btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .btn:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .btn-primary {
+                background: #4099ff;
+            }
+
+            .btn-success {
+                background: #2ed8b6;
+            }
+
+            .btn-info {
+                background: #9b59b6;
+            }
+
+            .instruction-message {
+                background: #fffbeb;
+                border-left: 4px solid #f59e0b;
+                padding: 12px 16px;
+                border-radius: 8px;
+                margin-bottom: 15px;
+                font-size: 14px;
+                color: #92400e;
+            }
+
+            .images-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            .image-item {
+                position: relative;
+                aspect-ratio: 1;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .image-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .image-item .label {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 4px;
+                font-size: 10px;
                 text-align: center;
             }
 
-            .finger-diagram img {
-                max-width: 200px;
-                height: auto;
+            .progress-indicator {
+                text-align: center;
+                padding: 10px;
+                background: #f0f9ff;
+                border-radius: 8px;
+                margin-bottom: 15px;
             }
 
-            .action-buttons {
-                grid-column: 1 / -1;
-                display: flex;
-                justify-content: center;
-                gap: 20px;
-                margin-top: 20px;
-            }
-
-            @media (max-width: 576px) {
-                .action-buttons {
-                    flex-direction: column;
-                }
-            }
-
-            .capture-btn {
-                padding: 16px 32px;
-                border-radius: 12px;
-                border: none;
-                background: linear-gradient(135deg, #4a7dff, #6ea8ff);
-                color: #ffffff;
-                font-size: 16px;
+            .progress-text {
                 font-weight: 600;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-                transition: all 0.3s ease;
-                min-width: 220px;
+                color: #0369a1;
+                margin-bottom: 8px;
             }
 
-            .capture-btn:hover:not(:disabled) {
-                transform: translateY(-2px);
-                box-shadow: 0 10px 20px rgba(74, 125, 255, 0.2);
-            }
-
-            .capture-btn:disabled {
-                background: #e5e7eb;
-                color: #9ca3af;
-                cursor: not-allowed;
-                transform: none;
-                box-shadow: none;
-            }
-
-            .identify-btn {
-                padding: 16px 32px;
-                border-radius: 12px;
-                border: none;
-                background: linear-gradient(135deg, #10b981, #34d399);
-                color: #ffffff;
-                font-size: 16px;
-                font-weight: 600;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-                transition: all 0.3s ease;
-                min-width: 220px;
-            }
-
-            .identify-btn:hover:not(:disabled) {
-                transform: translateY(-2px);
-                box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
-            }
-
-            .identify-btn:disabled {
-                background: #e5e7eb;
-                color: #9ca3af;
-                cursor: not-allowed;
-                transform: none;
-                box-shadow: none;
-                opacity: 0.6;
-            }
-
-            .scan-progress {
-                width: 80%;
-                height: 6px;
-                background: #e5e7eb;
-                border-radius: 3px;
+            .progress-bar-container {
+                width: 100%;
+                height: 8px;
+                background: #e0f2fe;
+                border-radius: 4px;
                 overflow: hidden;
-                margin-top: 10px;
             }
 
-            .scan-progress-bar {
+            .progress-bar {
                 height: 100%;
-                background: linear-gradient(90deg, #4a7dff, #6ea8ff);
-                width: 0%;
+                background: linear-gradient(90deg, #4099ff, #2ed8b6);
                 transition: width 0.3s ease;
+                width: 0%;
             }
 
-            @keyframes pulse {
-                0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-                70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-                100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            .info-banner {
+                background: linear-gradient(135deg, #dbeafe, #eff6ff);
+                border-left: 4px solid #3b82f6;
+                padding: 16px 20px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
             }
 
-            @keyframes bounce {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-10px); }
+            .info-banner i {
+                font-size: 24px;
+                color: #3b82f6;
+            }
+
+            .info-banner-text {
+                flex: 1;
+            }
+
+            .info-banner-text strong {
+                color: #1e40af;
+                display: block;
+                margin-bottom: 4px;
+                font-size: 15px;
+            }
+
+            .info-banner-text p {
+                margin: 0;
+                color: #1e3a8a;
+                font-size: 14px;
+                line-height: 1.5;
             }
         </style>
     @endsection
@@ -295,12 +275,9 @@
                 <!-- HEADER -->
                 <div class="biometric-header">
                     <div class="biometric-title">
-                        <div class="biometric-title-icon">
-                            <i class="ti ti-fingerprint"></i>
-                        </div>
                         <div>
-                            <h2>Empreinte Digitale - Main Droite</h2>
-                            <p>Capture des 4 doigts (sans le pouce) pour l'identification</p>
+                            <h2>Capture Empreintes Digitales</h2>
+                            <p>Scanner d'empreintes - Main droite, Main gauche, Pouces</p>
                         </div>
                     </div>
 
@@ -310,167 +287,460 @@
                     </div>
                 </div>
 
-                <!-- CARD -->
-                <div class="biometric-card">
-                    <div class="biometric-grid">
+                <!-- INFO BANNER -->
+                <div class="info-banner">
+                    <i class="ti ti-info-circle"></i>
+                    <div class="info-banner-text">
+                        <strong>Information importante</strong>
+                        <p>Vous devez choisir <strong>UNE SEULE option</strong> de capture pour identifier la personne (Main
+                            Droite OU Main Gauche OU Pouces). Il n'est pas nécessaire de scanner tous les doigts.</p>
+                    </div>
+                </div>
 
-                        <!-- INSTRUCTIONS -->
-                        <div class="instructions-box">
-                            <h4>Instructions de Capture</h4>
+                <div class="capture-layout">
 
-                            <div class="instruction-item">
-                                <div class="instruction-number">1</div>
-                                <div>Assurez-vous que le scanner est connecté et allumé</div>
-                            </div>
+                    <!-- GAUCHE : SCANNER -->
+                    <div class="card">
+                        <h3><i class="ti ti-fingerprint"></i> Scanner Empreintes</h3>
 
-                            <div class="instruction-item">
-                                <div class="instruction-number">2</div>
-                                <div>Placez les 4 doigts de votre main droite (sans le pouce) sur le scanner</div>
-                            </div>
+                        <!-- Instructions -->
+                        <div id="instructionMessage" class="instruction-message" style="display: none;">
+                            <i class="ti ti-info-circle"></i>
+                            <span id="instructionText">En attente...</span>
+                        </div>
 
-                            <div class="instruction-item">
-                                <div class="instruction-number">3</div>
-                                <div>Appuyez sur <strong>"Capturer"</strong> et maintenez vos doigts immobiles pendant 3 secondes</div>
-                            </div>
-
-                            <div class="instruction-item">
-                                <div class="instruction-number">4</div>
-                                <div>Une fois capturé, cliquez sur <strong>"Identifier"</strong> pour vérifier l'empreinte</div>
-                            </div>
-
-                            <div class="finger-diagram">
-                                <!-- You would add an image here showing which fingers to place -->
-                                <div style="font-size: 14px; color: #6b7280;">
-                                    <strong>Doigts à scanner :</strong> Index, Majeur, Annulaire, Auriculaire
-                                </div>
+                        <!-- Progress -->
+                        <div id="progressIndicator" class="progress-indicator" style="display: none;">
+                            <div class="progress-text"><span id="progressText">0/5</span> images capturées</div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="progressBar"></div>
                             </div>
                         </div>
 
-                        <!-- SCANNER PREVIEW -->
-                        <div class="scanner-box">
-                            <h4>Aperçu Scanner</h4>
-
-                            <div id="scannerPreview" class="scanner-preview">
+                        <!-- Scanner Preview -->
+                        <div class="scanner-preview" id="scannerPreview">
+                            <div class="placeholder-text">
                                 <i class="ti ti-fingerprint"></i>
-                                <span class="preview-status">En attente de connexion...</span>
-                                <div class="scan-progress">
-                                    <div class="scan-progress-bar"></div>
-                                </div>
+                                Aperçu du scanner
                             </div>
+                            <img id="previewImage" style="display: none;" alt="Aperçu">
+                        </div>
 
-                            <div style="text-align: center; margin-top: 15px; font-size: 14px; color: #6b7280;">
-                                Statut: <span id="scanStatus">Prêt</span>
+                        <!-- Buttons -->
+                        <div class="btn-container">
+                            <button id="captureRightBtn" class="btn btn-primary" disabled>
+                                <i class="ti ti-hand-finger"></i> Main Droite
+                            </button>
+                            <button id="captureLeftBtn" class="btn btn-success" disabled>
+                                <i class="ti ti-hand-finger"></i> Main Gauche
+                            </button>
+                            <button id="captureThumbsBtn" class="btn btn-info" disabled>
+                                <i class="ti ti-hand-two-fingers"></i> Pouces
+                            </button>
+                        </div>
+
+                        <div style="text-align: center; font-size: 12px; color: #6b7280;">
+                            <i class="ti ti-arrow-up"></i> Choisissez <strong>UNE</strong> option pour identifier
+                        </div>
+                    </div>
+
+                    <!-- DROITE : IMAGES CAPTURÉES -->
+                    <div class="card">
+                        <h3><i class="ti ti-photo"></i> Images Capturées</h3>
+
+                        <div id="capturedImagesContainer">
+                            <div class="placeholder-text">
+                                <i class="ti ti-photo-off"></i>
+                                Aucune image capturée
                             </div>
                         </div>
 
-                        <!-- ACTION BUTTONS -->
-                        <div class="action-buttons">
-                            <button id="captureBtn" class="capture-btn" disabled>
-                                <i class="ti ti-camera"></i>
-                                Capturer Empreinte
-                            </button>
+                        <div id="imagesGrid" class="images-grid" style="display: none;"></div>
 
-                            <button id="identifyBtn" class="identify-btn" disabled>
-                                <i class="ti ti-search"></i>
-                                Identifier
+                        <div style="margin-top: 20px;">
+                            <button id="sendBtn" class="btn btn-primary" style="width: 100%;" disabled>
+                                <i class="ti ti-send"></i> Envoyer au Moteur ABIS (Désactivé)
                             </button>
                         </div>
                     </div>
+
                 </div>
 
             </div>
         </div>
     @endsection
 
-    @section('scripts')
+    @section('js')
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const statusIndicator = document.getElementById('statusIndicator');
-                const scannerPreview = document.getElementById('scannerPreview');
-                const captureBtn = document.getElementById('captureBtn');
-                const identifyBtn = document.getElementById('identifyBtn');
-                const scanStatus = document.getElementById('scanStatus');
-                const progressBar = document.querySelector('.scan-progress-bar');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const scannerPreview = document.getElementById('scannerPreview');
+            const previewImage = document.getElementById('previewImage');
+            const captureRightBtn = document.getElementById('captureRightBtn');
+            const captureLeftBtn = document.getElementById('captureLeftBtn');
+            const captureThumbsBtn = document.getElementById('captureThumbsBtn');
+            const sendBtn = document.getElementById('sendBtn');
+            const instructionMessage = document.getElementById('instructionMessage');
+            const instructionText = document.getElementById('instructionText');
+            const progressIndicator = document.getElementById('progressIndicator');
+            const progressText = document.getElementById('progressText');
+            const progressBar = document.getElementById('progressBar');
+            const imagesGrid = document.getElementById('imagesGrid');
+            const capturedImagesContainer = document.getElementById('capturedImagesContainer');
 
-                // Simulate scanner connection
-                setTimeout(() => {
-                    statusIndicator.className = 'status-indicator status-connected';
-                    statusIndicator.innerHTML = '<i class="ti ti-wifi"></i><span>Connecté</span>';
+            let websocket = null;
+            let capturedImages = [];
+            let currentCaptureType = null;
 
+            // Établir la connexion WebSocket
+            function connectWebSocket() {
+                if (websocket) {
+                    websocket.close();
+                }
+
+                websocket = new WebSocket('wss://localhost:8443/ws/biometric-events');
+
+                websocket.onopen = () => {
+                    console.log('WebSocket connecté pour les empreintes');
+                    setStatus('status-connected', 'Connecté', 'ti ti-wifi');
+
+                    // Activer les boutons de capture
+                    captureRightBtn.disabled = false;
+                    captureLeftBtn.disabled = false;
+                    captureThumbsBtn.disabled = false;
+                };
+
+                websocket.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        handleWebSocketMessage(data);
+                    } catch (error) {
+                        console.error('Erreur parsing WebSocket:', error);
+                    }
+                };
+
+                websocket.onerror = (error) => {
+                    console.error('Erreur WebSocket:', error);
+                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
+                };
+
+                websocket.onclose = () => {
+                    console.log('WebSocket déconnecté');
+                    websocket = null;
+                    setStatus('status-disconnected', 'Déconnecté', 'ti ti-wifi-off');
+
+                    // Désactiver les boutons
+                    captureRightBtn.disabled = true;
+                    captureLeftBtn.disabled = true;
+                    captureThumbsBtn.disabled = true;
+                };
+            }
+
+            // Gérer les messages WebSocket
+            function handleWebSocketMessage(data) {
+                const {
+                    type,
+                    message
+                } = data;
+
+                switch (type) {
+                    case 'IMAGE_PREVIEW':
+                        // Afficher l'aperçu en temps réel
+                        try {
+                            const preview = JSON.parse(message);
+                            displayPreview(preview.imageData);
+                        } catch (e) {
+                            console.error('Erreur preview:', e);
+                        }
+                        break;
+
+                    case 'INSTRUCTION':
+                        // Afficher les instructions
+                        showInstruction(message);
+                        break;
+
+                    case 'FINGERS_BASE64_IMG':
+                        // Stocker l'image reçue
+                        capturedImages.push(message);
+                        console.log(`Image ${capturedImages.length}/5 reçue`);
+
+                        // Mettre à jour le progrès
+                        updateProgress(capturedImages.length);
+
+                        // Afficher la première image (main complète) comme aperçu
+                        if (capturedImages.length === 1) {
+                            displayCapturedImage(message);
+                        }
+                        break;
+
+                    case 'CAPTURE_DONE':
+                        // Toutes les images ont été reçues
+                        console.log('Capture terminée, 5 images reçues');
+                        onCaptureComplete();
+                        break;
+
+                    case 'CAPTURE_ERROR':
+                        // Gérer les erreurs
+                        console.error('Erreur:', message);
+                        showError(message);
+                        resetCapture();
+                        break;
+
+                    default:
+                        console.log('Message non géré:', type, message);
+                }
+            }
+
+            // Déclencher la capture
+            async function startCapture(type, endpoint) {
+                try {
+                    currentCaptureType = type;
+                    capturedImages = [];
+
+                    // Désactiver les boutons pendant la capture
+                    captureRightBtn.disabled = true;
+                    captureLeftBtn.disabled = true;
+                    captureThumbsBtn.disabled = true;
+
+                    // Afficher le progrès
+                    progressIndicator.style.display = 'block';
+                    updateProgress(0);
+
+                    // Afficher le scanner en mode actif
                     scannerPreview.classList.add('active');
-                    scannerPreview.querySelector('.preview-status').textContent = 'Scanner prêt';
-                    scanStatus.textContent = 'Connecté';
 
-                    // Enable capture button
-                    captureBtn.disabled = false;
-                }, 2000);
+                    console.log(`Démarrage capture: ${endpoint}`);
 
-                // Capture button click handler
-                captureBtn.addEventListener('click', function() {
-                    if (captureBtn.disabled) return;
+                    const response = await fetch(`https://localhost:8443${endpoint}`, {
+                        method: 'GET'
+                    });
 
-                    // Start scanning animation
-                    scannerPreview.classList.remove('active');
-                    scannerPreview.classList.add('scanning');
-                    scannerPreview.querySelector('.preview-status').textContent = 'Scan en cours...';
-                    scanStatus.textContent = 'Scan en cours';
-                    captureBtn.disabled = true;
-                    captureBtn.innerHTML = '<i class="ti ti-loader-2 spin"></i> Capture...';
+                    if (!response.ok) {
+                        throw new Error(`Erreur HTTP: ${response.status}`);
+                    }
 
-                    // Simulate scan progress
-                    let progress = 0;
-                    const interval = setInterval(() => {
-                        progress += 10;
-                        progressBar.style.width = progress + '%';
+                    console.log('Capture démarrée');
+                    showInstruction('Placez vos doigts sur le scanner...');
 
-                        if (progress >= 100) {
-                            clearInterval(interval);
+                } catch (error) {
+                    console.error('Erreur démarrage capture:', error);
+                    alert('Impossible de démarrer la capture. Vérifiez que le service est actif.');
+                    resetCapture();
+                }
+            }
 
-                            // Scan complete
-                            setTimeout(() => {
-                                scannerPreview.classList.remove('scanning');
-                                scannerPreview.querySelector('.preview-status').textContent = 'Capture réussie!';
-                                scanStatus.textContent = 'Capture terminée';
-                                captureBtn.disabled = false;
-                                captureBtn.innerHTML = '<i class="ti ti-camera"></i> Capturer à nouveau';
+            // Afficher l'aperçu en temps réel
+            function displayPreview(imageData) {
+                previewImage.src = imageData;
+                previewImage.style.display = 'block';
+                scannerPreview.querySelector('.placeholder-text').style.display = 'none';
+            }
 
-                                // Enable identify button
-                                identifyBtn.disabled = false;
+            // Afficher l'image capturée
+            function displayCapturedImage(imageData) {
+                displayPreview(imageData);
+            }
 
-                                // Show success message
-                                showNotification('success', 'Empreinte capturée avec succès!');
-                            }, 500);
-                        }
-                    }, 300);
+            // Afficher les instructions
+            function showInstruction(text) {
+                instructionMessage.style.display = 'block';
+                instructionText.textContent = text;
+            }
+
+            // Mettre à jour le progrès
+            function updateProgress(count) {
+                const percentage = (count / 5) * 100;
+                progressText.textContent = `${count}/5`;
+                progressBar.style.width = `${percentage}%`;
+            }
+
+            // Capture terminée
+            function onCaptureComplete() {
+                showInstruction('Capture terminée avec succès!');
+                progressIndicator.style.display = 'none';
+                scannerPreview.classList.remove('active');
+
+                // Afficher les images dans la grille
+                displayImagesGrid();
+
+                // Réactiver les boutons
+                captureRightBtn.disabled = false;
+                captureLeftBtn.disabled = false;
+                captureThumbsBtn.disabled = false;
+
+                // Note: Le bouton d'envoi au moteur ABIS reste désactivé comme demandé
+            }
+
+            // Afficher les images dans la grille
+            function displayImagesGrid() {
+                const labels = {
+                    'right-four': ['Main Droite', 'Index D', 'Majeur D', 'Annulaire D', 'Auriculaire D'],
+                    'left-four': ['Main Gauche', 'Index G', 'Majeur G', 'Annulaire G', 'Auriculaire G'],
+                    'thumbs': ['Pouces', 'Pouce D', 'Pouce G', '', '']
+                };
+
+                const currentLabels = labels[currentCaptureType] || ['Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5'];
+
+                capturedImagesContainer.style.display = 'none';
+                imagesGrid.style.display = 'grid';
+                imagesGrid.innerHTML = '';
+
+                capturedImages.forEach((imageData, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'image-item';
+
+                    const img = document.createElement('img');
+                    img.src = imageData;
+                    img.alt = `Image ${index + 1}`;
+
+                    const label = document.createElement('div');
+                    label.className = 'label';
+                    label.textContent = currentLabels[index];
+
+                    div.appendChild(img);
+                    div.appendChild(label);
+                    imagesGrid.appendChild(div);
                 });
+            }
 
-                // Identify button click handler
-                identifyBtn.addEventListener('click', function() {
-                    if (identifyBtn.disabled) return;
+            // Afficher une erreur
+            function showError(message) {
+                alert(`Erreur: ${message}`);
+            }
 
-                    identifyBtn.disabled = true;
-                    identifyBtn.innerHTML = '<i class="ti ti-loader-2 spin"></i> Identification...';
-                    scanStatus.textContent = 'Identification en cours';
+            // Réinitialiser la capture
+            function resetCapture() {
+                capturedImages = [];
+                currentCaptureType = null;
+                progressIndicator.style.display = 'none';
+                scannerPreview.classList.remove('active');
+                instructionMessage.style.display = 'none';
 
-                    // Simulate identification process
-                    setTimeout(() => {
-                        identifyBtn.disabled = false;
-                        identifyBtn.innerHTML = '<i class="ti ti-search"></i> Identifier';
-                        scanStatus.textContent = 'Identification terminée';
+                // Réactiver les boutons
+                captureRightBtn.disabled = false;
+                captureLeftBtn.disabled = false;
+                captureThumbsBtn.disabled = false;
+            }
 
-                        // Show result (simulated)
-                        const isMatch = Math.random() > 0.5;
-                        if (isMatch) {
-                            showNotification('success', 'Empreinte identifiée avec succès!');
-                        } else {
-                            showNotification('error', 'Aucune correspondance trouvée. Veuillez réessayer.');
-                        }
-                    }, 2000);
+            // Changer le statut
+            function setStatus(type, text, icon) {
+                statusIndicator.classList.remove('status-connected', 'status-disconnected', 'status-connecting');
+                statusIndicator.classList.add(type);
+                statusIndicator.innerHTML = `<i class="${icon}"></i><span>${text}</span>`;
+            }
+
+            // Event Listeners
+            captureRightBtn.addEventListener('click', () => {
+                startCapture('right-four', '/capture-right-four');
+            });
+
+            captureLeftBtn.addEventListener('click', () => {
+                startCapture('left-four', '/capture-left-four');
+            });
+
+            captureThumbsBtn.addEventListener('click', () => {
+                startCapture('thumbs', '/capture-thumbs');
+            });
+
+            /**
+             * Prépare les images pour l'envoi au backend
+             */
+            function prepareFormData(capturedImages) {
+                // IMPORTANT : Noms exacts attendus par le backend
+                const fingerNames = [
+                    "RightHand", // Image 1 : Main complète
+                    "RightIndex", // Image 2 : Index
+                    "RightMiddle", // Image 3 : Majeur
+                    "RightRing", // Image 4 : Annulaire
+                    'RightLittle' // Image 5 : Auriculaire
+                ];
+
+                const formData = new FormData();
+                // Convertir chaque image et l'ajouter au FormData
+                capturedImages.forEach((imageBase64, index) => {
+                    const blob = base64ToBlob(imageBase64);
+                    const filename = `${fingerNames[index]}.png`;
+                    // CRITIQUE: Le paramètre DOIT s'appeler "request"
+                    formData.append("request", blob, filename);
                 });
+                return formData;
+            }
 
-                function showNotification(type, message) {
-                    // You would integrate with your notification system here
-                    alert(message); // Temporary for demo
+            const getToken = async () => {
+                const response = await fetch("https://10.30.30.22/api/Login/machine-login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        clientId: "service1",
+                        clientSecret: "qX7!fL9$2vB#8kP1zN@5rT6mY*QwE4sH"
+                    }),
+                });
+                console.log("response:", response);
+                const data = await response.json();
+                // console.log("data:", data.token);
+                return data.token;
+            }
+
+            /**
+             * Envoie les empreintes au backend pour identification
+             */
+            async function sendFingerprints(capturedImages) {
+                try {
+                    // Vérifier qu'on a bien les 5 images
+                    if (capturedImages.length !== 5) {
+                        throw new Error(`Images incomplètes: ${capturedImages.length}/5`);
+                    }
+
+                    // Préparer le FormData
+                    const formData = prepareFormData(capturedImages);
+                    console.log("Envoi des empreintes au backend...");
+                    // Envoyer la requête
+                    const response = await fetch("https://10.30.30.22/api/Enrollement/check", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        },
+                        body: formData
+                    });
+
+                    // Traiter la réponse
+                    if (response.status === 200) {
+                        // Personne identifiée
+                        const person = await response.json();
+                        console.log("Personne trouvée:", person);
+                        // displayPersonInfo(person);
+                    } else if (response.status === 404) {
+                        const text = await res.text()
+                        console.log(text)
+                    } else {
+                        //  Autre erreur
+                        throw new Error(`Erreur HTTP ${response.status}`);
+                    }
+                } catch (error) {
+                    console.error("❌ Erreur lors de l'envoi:", error);
+                    showError("Impossible de vérifier les empreintes. Veuillez réessayer.");
+                }
+            }
+
+            sendBtn.addEventListener('click', function() {
+                // Swal.fire({
+                //     icon: 'error',
+                //     title: 'Oops...',
+                //     text: 'Erreur d\'identification',
+                // })
+
+                sendFingerprints(capturedImages);
+                // console.log(capturedImage.src);
+            });
+
+            // Connexion au démarrage
+            connectWebSocket();
+
+            // Déconnecter le WebSocket quand on quitte la page
+            window.addEventListener('beforeunload', () => {
+                if (websocket) {
+                    websocket.close();
                 }
             });
         </script>

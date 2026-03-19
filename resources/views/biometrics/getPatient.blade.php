@@ -378,7 +378,7 @@
 
                 <!-- Breadcrumb avec animation -->
                     <div>
-                        <x-breadcrumb.wrapper title="Imprimer une fiche d'autorisation" type="Retour">
+                        <x-breadcrumb.wrapper title="Imprimer une fiche d'autorisation">
                             <x-breadcrumb.item title="Tableau de bord" />
                             <x-breadcrumb.item title="Bureau d'entrée" />
                             <x-breadcrumb.item title="Imprimer" type="active" />
@@ -564,6 +564,7 @@
                                 <p style="font-size:.8rem; text-align:center; color:#4361ee;">
                                     🆔 SSN: ${member.SSN || "N/A"}
                                 </p>
+                                <a class="btn btn-primary-light btn-wave print_fiche"  ">Imprimer</a>
                             `;
 
                             // <p style="font-size:.8rem; text-align:center; color:#666;">

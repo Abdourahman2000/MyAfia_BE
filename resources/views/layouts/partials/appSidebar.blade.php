@@ -82,17 +82,22 @@
                         <x-sidebar.single title="Recherche avancée" icon="search"
                             link="{{ route('entry.search') }}" />
 
-                            <!-- Start::BIOMÉTRIE -->
-                        <x-sidebar.sub.multiple1 title="Biométrie" icon="scan">
+                        <!-- Start::BIOMÉTRIE -->
+                        @php
+                            $agent = new Jenssegers\Agent\Agent();
+                        @endphp
 
-                            <x-sidebar.sub.multiple1single title="Visage"
-                                link="{{ route('biometrie.face') }}"  icon="face-id" />
+                        @if ($agent->isDesktop() && Auth::user()->canbiometrie)
+                            <x-sidebar.sub.multiple1 title="Biométrie" icon="scan">
 
-                            <x-sidebar.sub.multiple1single title="Empreinte"
-                                link="{{ route('biometrie.empreinte') }}" icon="fingerprint" />
-                        </x-sidebar.sub.multiple1>
-                        <!-- End::BIOMÉTRIE -->
+                                <x-sidebar.sub.multiple1single title="Visage" link="{{ route('biometrie.face') }}"
+                                    icon="face-id" />
 
+                                <x-sidebar.sub.multiple1single title="Empreinte"
+                                    link="{{ route('biometrie.empreinte') }}" icon="fingerprint" />
+                            </x-sidebar.sub.multiple1>
+                            <!-- End::BIOMÉTRIE -->
+                        @endif
                     </ul>
                     <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                             width="24" height="24" viewBox="0 0 24 24">
