@@ -583,6 +583,7 @@
                 capturedImagesContainer.style.display = 'none';
                 imagesGrid.style.display = 'grid';
                 imagesGrid.innerHTML = '';
+                sendBtn.disabled = false;
 
                 capturedImages.forEach((imageData, index) => {
                     const div = document.createElement('div');
@@ -642,6 +643,28 @@
             });
 
             /**
+             * Convertit une chaîne Base64 en Blob
+             */
+            function base64ToBlob(base64String, contentType = "image/png") {
+                // Retirer le préfixe "data:image/png;base64," si présent
+                const base64 = base64String.includes(",") ?
+                    base64String.split(",")[1] :
+                    base64String;
+                // Décoder le Base64
+                const byteCharacters = atob(base64);
+                const byteNumbers = new Array(byteCharacters.length);
+
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+
+                const byteArray = new Uint8Array(byteNumbers);
+                return new Blob([byteArray], {
+                    type: contentType
+                });
+            }
+
+            /**
              * Prépare les images pour l'envoi au backend
              */
             function prepareFormData(capturedImages) {
@@ -650,18 +673,24 @@
                     "RightHand", // Image 1 : Main complète
                     "RightIndex", // Image 2 : Index
                     "RightMiddle", // Image 3 : Majeur
-                    "RightRing", // Image 4 : Annulaire
-                    'RightLittle' // Image 5 : Auriculaire
+                    "RightLittle", // Image 4 : Auriculaire
+                    'RightRing' // Image 5 : Annulaire
                 ];
 
+                console.log("fingerNames:", fingerNames.slice(1));
+                console.log("capturedImages.slice(1):", capturedImages.slice(1));
+                console.log("capturedImages:", capturedImages);
                 const formData = new FormData();
                 // Convertir chaque image et l'ajouter au FormData
-                capturedImages.forEach((imageBase64, index) => {
+                capturedImages.slice(1).forEach((imageBase64, index) => {
                     const blob = base64ToBlob(imageBase64);
-                    const filename = `${fingerNames[index]}.png`;
+                    const filename = `${fingerNames.slice(1)[index]}.png`;
                     // CRITIQUE: Le paramètre DOIT s'appeler "request"
                     formData.append("request", blob, filename);
                 });
+                // for (const [key, value] of formData) {
+                //     console.log(key, value);
+                // }
                 return formData;
             }
 
@@ -695,7 +724,11 @@
                     // Préparer le FormData
                     const formData = prepareFormData(capturedImages);
                     console.log("Envoi des empreintes au backend...");
+                    for (const [key, value] of formData) {
+                        console.log("key, value:", key, value);
+                    }
                     // Envoyer la requête
+                    const token = await getToken();
                     const response = await fetch("https://10.30.30.22/api/Enrollement/check", {
                         method: "POST",
                         headers: {
@@ -711,14 +744,19 @@
                         console.log("Personne trouvée:", person);
                         // displayPersonInfo(person);
                     } else if (response.status === 404) {
-                        const text = await res.text()
+                        const text = await response.text()
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Personne non trouvée'
+                        })
                         console.log(text)
                     } else {
                         //  Autre erreur
                         throw new Error(`Erreur HTTP ${response.status}`);
                     }
                 } catch (error) {
-                    console.error("❌ Erreur lors de l'envoi:", error);
+                    console.error("❌ Erreur lors de l'envoi des empreintes :", error);
                     showError("Impossible de vérifier les empreintes. Veuillez réessayer.");
                 }
             }

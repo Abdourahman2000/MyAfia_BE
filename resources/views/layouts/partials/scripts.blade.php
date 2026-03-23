@@ -35,5 +35,7 @@
  <script src="{{ asset('assets') }}/js/custom.js"></script>
  <script src="{{ asset('assets/libs/jquery/jquery-3.6.1.min.js') }}"></script>
 
+ <!-- Sweetalerts JS -->
+ <script src="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.js"></script>
 
  @yield('js')

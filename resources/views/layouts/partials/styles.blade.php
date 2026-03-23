@@ -25,4 +25,7 @@
 <link rel="stylesheet" href="{{ asset('assets') }}/css/custom_dark.css">
 <link rel="stylesheet" href="{{ asset('assets') }}/css/app.css">
 
+<!-- Sweetalerts CSS -->
+<link rel="stylesheet" href="{{ asset('assets') }}/libs/sweetalert2/sweetalert2.min.css">
+
 @yield('css')
