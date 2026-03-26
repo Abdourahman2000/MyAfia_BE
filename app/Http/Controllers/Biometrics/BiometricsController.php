@@ -24,6 +24,11 @@ class BiometricsController extends Controller
         return view('biometrics.empreinte');
     }
 
+    public function lecteurCarte()
+    {
+        return view('biometrics.lecteur-carte');
+    }
+
     // public function storeFaceCapture(Request $request)
     // {
     //     $request->validate([

@@ -57,8 +57,8 @@ Route::middleware(['auth', 'check_temp'])->group(function () {
     Route::prefix('biometrie')->name('biometrie.')->middleware(['auth','is_desktop','can_biometrie'])->group(function () {
         Route::get('/', [BiometricsController::class, 'index'])->name('index');
         Route::get('/visage', [BiometricsController::class, 'showFaceCapture'])->name('face');
-        Route::post('/visage/store', [BiometricsController::class, 'storeFaceCapture'])->name('face.store');
         Route::get('/empreinte', [BiometricsController::class, 'empreinte'])->name('empreinte');
+        Route::get('/lecteur-carte', [BiometricsController::class, 'lecteurCarte'])->name('lecteur-carte');
         Route::get('/getPatient', action: [BiometricsController::class, 'getPatient'])->name('getPatient');
    });
 

@@ -34,6 +34,25 @@
 
                         <x-sidebar.single title="Tableau de bord" icon="home-2" link="{{ route('dashboard') }}" />
 
+                        <!-- Start::BIOMÉTRIE -->
+                        @php
+                            $agent = new Jenssegers\Agent\Agent();
+                        @endphp
+
+                        @if ($agent->isDesktop() && Auth::user()->canbiometrie)
+                            <x-sidebar.sub.multiple1 title="Biométrie" icon="scan">
+
+                                <x-sidebar.sub.multiple1single title="Visage" link="{{ route('biometrie.face') }}"
+                                    icon="face-id" />
+
+                                <x-sidebar.sub.multiple1single title="Empreinte"
+                                    link="{{ route('biometrie.empreinte') }}" icon="fingerprint" />
+
+                                <x-sidebar.sub.multiple1single title="Lecteur carte"
+                                    link="{{ route('biometrie.lecteur-carte') }}" icon="id-card" />
+                            </x-sidebar.sub.multiple1>
+                            <!-- End::BIOMÉTRIE -->
+                        @endif
 
                         @if (Auth::user()->type == 'admin' || Auth::user()->type == 'super_admin')
                             <!-- Start::slide Utilisateurs -->
@@ -82,22 +101,6 @@
                         <x-sidebar.single title="Recherche avancée" icon="search"
                             link="{{ route('entry.search') }}" />
 
-                        <!-- Start::BIOMÉTRIE -->
-                        @php
-                            $agent = new Jenssegers\Agent\Agent();
-                        @endphp
-
-                        @if ($agent->isDesktop() && Auth::user()->canbiometrie)
-                            <x-sidebar.sub.multiple1 title="Biométrie" icon="scan">
-
-                                <x-sidebar.sub.multiple1single title="Visage" link="{{ route('biometrie.face') }}"
-                                    icon="face-id" />
-
-                                <x-sidebar.sub.multiple1single title="Empreinte"
-                                    link="{{ route('biometrie.empreinte') }}" icon="fingerprint" />
-                            </x-sidebar.sub.multiple1>
-                            <!-- End::BIOMÉTRIE -->
-                        @endif
                     </ul>
                     <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                             width="24" height="24" viewBox="0 0 24 24">

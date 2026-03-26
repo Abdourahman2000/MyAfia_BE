@@ -3,28 +3,21 @@
 
     @section('css')
         <style>
+            :root {
+                --primary-color: #0D6EFD;
+                --secondary-color: #003B73;
+                --accent-color: #0A58CA;
+                --light-bg: #f8f9fa;
+                --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                --hover-shadow: 0 15px 40px rgba(67, 97, 238, 0.15);
+                --transition-smooth: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
             .biometric-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 30px;
-            }
-
-            .biometric-title {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-            }
-
-            .biometric-title h2 {
-                margin: 0;
-                font-weight: 700;
-            }
-
-            .biometric-title p {
-                margin: 0;
-                color: #6b7280;
-                font-size: 14px;
             }
 
             .status-indicator {
@@ -265,6 +258,226 @@
                 font-size: 14px;
                 line-height: 1.5;
             }
+
+            /* ===== PATIENT INFORMATION CARD ===== */
+            .patient_info_card {
+                max-width: 78%;
+                width: 100%;
+                background: linear-gradient(145deg, #ffffff, #f8f9ff);
+                border-radius: 20px;
+                box-shadow: var(--card-shadow);
+                border: 1px solid rgba(255, 255, 255, 0.8);
+                padding: 20px;
+                margin-bottom: 20px;
+                position: relative;
+                overflow: hidden;
+                transition: var(--transition-smooth);
+            }
+
+            .patient_info_card h5 {
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 700;
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
+
+            .patient_information_wrapper {
+                display: flex;
+                gap: 10px;
+            }
+
+            .pi_left {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-width: 40px;
+            }
+
+            .pi_left_img {
+                width: 120px;
+                height: 120px;
+                border-radius: 20px;
+                object-fit: cover;
+                border: 5px solid white;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .pi_left_img:hover {
+                box-shadow: 0 15px 40px rgba(67, 97, 238, 0.2);
+            }
+
+            .patient_name {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--secondary-color);
+                text-align: center;
+                margin-top: 15px;
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .pi_right {
+                flex: 1;
+            }
+
+            .pi_right_block strong {
+                color: var(--secondary-color);
+                font-size: 15px;
+                display: block;
+                /* margin-bottom: 5px; */
+                font-weight: 300;
+            }
+
+            .pi_right_block span {
+                color: #333;
+                font-size: 15px;
+                font-weight: 500;
+            }
+
+            .care_access_badge {
+                display: inline-block;
+                padding: 5px 15px;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 0.9rem;
+            }
+
+            .care_access_badge.access-yes {
+                background: #10b981;
+                color: white;
+            }
+
+            .care_access_badge.access-no {
+                background: #ef4444;
+                color: white;
+            }
+
+            /* Style des cartes de membres */
+            .box_item {
+                width: 13.42%;
+                background: white;
+                border-radius: 16px;
+                padding: 15px;
+                box-shadow: var(--card-shadow);
+                transition: var(--transition-smooth);
+                position: relative;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.9);
+                opacity: 1;
+                animation: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            }
+
+            .box_item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .box_item:hover {
+                /* transform: translateY(-10px) scale(1.03); */
+                box-shadow: var(--hover-shadow);
+                animation: glow 2s infinite;
+            }
+
+            .box_item:hover::before {
+                transform: scaleX(1);
+            }
+
+            .box_item img {
+                width: 100%;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 12px;
+                margin-bottom: 15px;
+                transition: var(--transition-smooth);
+                filter: grayscale(20%);
+            }
+
+            /* Animation des éléments textuels */
+            .fade-in {
+                opacity: 0;
+                animation: fadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            }
+
+            /* Style du bouton */
+            .print_family_file {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                border: none;
+                border-radius: 50px;
+                padding: 12px 30px;
+                color: white;
+                font-weight: 600;
+                transition: var(--transition-smooth);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .print_family_file::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.7s;
+            }
+
+            .print_family_file:hover::before {
+                left: 100%;
+            }
+
+            .print_family_file:hover {
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+            }
+
+            /* Date de naissance */
+            .birth_p {
+                background: linear-gradient(135deg, #e0e7ff, #dbe4ff);
+                color: var(--secondary-color);
+                padding: 8px;
+                border-radius: 10px;
+                font-weight: 600;
+                margin: 10px 0;
+                position: relative;
+                overflow: hidden;
+                transition: var(--transition-smooth);
+            }
+
+            .box_item img.loading {
+                background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                background-size: 200% 100%;
+                animation: shimmer 1.5s infinite linear;
+            }
+
+            .box_of_item {
+                position: relative;
+                padding: 20px;
+                margin: 30px 0 20px;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 20px;
+            }
+
+            .box_of_item h3 {
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 700;
+                font-size: 1.5rem;
+                border-bottom: 2px solid var(--primary-color);
+                padding-bottom: 10px;
+            }
         </style>
     @endsection
 
@@ -274,12 +487,8 @@
 
                 <!-- HEADER -->
                 <div class="biometric-header">
-                    <div class="biometric-title">
-                        <div>
-                            <h2>Capture Empreintes Digitales</h2>
-                            <p>Scanner d'empreintes - Main droite, Main gauche, Pouces</p>
-                        </div>
-                    </div>
+                    <x-biometric-header title="Capture Empreintes Digitales"
+                        description="Scanner d'empreintes - Main droite, Main gauche, Pouces" icon="ti ti-fingerprint" />
 
                     <div id="statusIndicator" class="status-indicator status-disconnected">
                         <i class="ti ti-wifi-off"></i>
@@ -366,6 +575,74 @@
 
                 </div>
 
+                <div id="identification-result" class="box_of_item" style="display: none;">
+                    <h3>
+                        <i class="ti ti-user"></i> Résultat de l'identification
+                    </h3>
+
+                    <!-- Patient Information Card (Assuré principal) -->
+                    <div id="patient-info-card" class="patient_info_card" style="display: none;">
+                        <h5>Informations sur le patient (Assuré principal)</h5>
+                        <div class="patient_information_wrapper">
+                            <!-- Photo et nom -->
+                            <div class="pi_left">
+                                <img class="pi_left_img" id="pi-avatar" src="" alt="user avatar" />
+                                <h6 class="patient_name" id="pi-name"></h6>
+                            </div>
+
+                            <!-- Informations détaillées -->
+                            <div class="pi_right">
+                                <div class="pi_right_block">
+                                    <strong>Nom de l'employeur</strong>
+                                    <span id="pi-company"></span>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-3">
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Numéro de l'employeur</strong>
+                                        <span id="pi-matricule"></span>
+                                    </div>
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Numéro de compte assuré</strong>
+                                        <span id="pi-matricule-assure"></span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-3">
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Régime assurance maladie</strong>
+                                        <span id="pi-regime-amo"></span>
+                                    </div>
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Régime travailleur</strong>
+                                        <span id="pi-regime"></span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-3 mb-3">
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Date de naissance</strong>
+                                        <span id="pi-birth-date"></span>
+                                    </div>
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>SSN</strong>
+                                        <span id="pi-ssn"></span>
+                                    </div>
+                                </div>
+
+                                <div class="pi_right_block">
+                                    <strong>Accès au soins</strong>
+                                    <span id="pi-care-access" class="care_access_badge"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Beneficiary Information Card (Assuré principal) -->
+                    <div id="result-content" style="padding: 20px;">
+
+                    </div>
+                </div>
             </div>
         </div>
     @endsection
@@ -386,6 +663,7 @@
             const progressBar = document.getElementById('progressBar');
             const imagesGrid = document.getElementById('imagesGrid');
             const capturedImagesContainer = document.getElementById('capturedImagesContainer');
+            const identificationResult = document.getElementById('identification-result');
 
             let websocket = null;
             let capturedImages = [];
@@ -443,6 +721,15 @@
                 } = data;
 
                 switch (type) {
+                    case 'BIOMETRIC_ERROR':
+                        // Gérer les erreurs
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lecteur d\'empreintes non détecté',
+                            text: 'Veuillez connecter un lecteur d\'empreintes'
+                        });
+                        resetCapture();
+                        break;
                     case 'IMAGE_PREVIEW':
                         // Afficher l'aperçu en temps réel
                         try {
@@ -484,7 +771,6 @@
                         showError(message);
                         resetCapture();
                         break;
-
                     default:
                         console.log('Message non géré:', type, message);
                 }
@@ -631,15 +917,35 @@
 
             // Event Listeners
             captureRightBtn.addEventListener('click', () => {
-                startCapture('right-four', '/capture-right-four');
+                identificationResult.style.display = 'none';
+
+                try {
+                    startCapture('right-four', '/capture-right-four');
+                } catch (error) {
+                    console.error('Erreur démarrage capture:', error);
+                    resetCapture();
+                }
+
             });
 
             captureLeftBtn.addEventListener('click', () => {
-                startCapture('left-four', '/capture-left-four');
+                identificationResult.style.display = 'none';
+                try {
+                    startCapture('left-four', '/capture-left-four');
+                } catch (error) {
+                    console.error('Erreur démarrage capture:', error);
+                    resetCapture();
+                }
             });
 
             captureThumbsBtn.addEventListener('click', () => {
-                startCapture('thumbs', '/capture-thumbs');
+                identificationResult.style.display = 'none';
+                try {
+                    startCapture('thumbs', '/capture-thumbs');
+                } catch (error) {
+                    console.error('Erreur démarrage capture:', error);
+                    resetCapture();
+                }
             });
 
             /**
@@ -742,15 +1048,26 @@
                         // Personne identifiée
                         const person = await response.json();
                         console.log("Personne trouvée:", person);
+
+                        identificationResult.style.display = 'block';
                         // displayPersonInfo(person);
+                        displayIdentificationResult(person);
+
+                        // 4. Défilement automatique vers le bas
+                        window.scrollTo({
+                            top: document.body.scrollHeight,
+                            behavior: 'smooth' // Défilement fluide
+                        });
+
                     } else if (response.status === 404) {
                         const text = await response.text()
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: 'Personne non trouvée'
+                            text: 'Personne non identifié...'
                         })
                         console.log(text)
+
                     } else {
                         //  Autre erreur
                         throw new Error(`Erreur HTTP ${response.status}`);
@@ -762,15 +1079,104 @@
             }
 
             sendBtn.addEventListener('click', function() {
-                // Swal.fire({
-                //     icon: 'error',
-                //     title: 'Oops...',
-                //     text: 'Erreur d\'identification',
-                // })
-
-                sendFingerprints(capturedImages);
-                // console.log(capturedImage.src);
+                try {
+                    sendFingerprints(capturedImages);
+                } catch (error) {
+                    onsole.log('error', error);
+                }
             });
+
+            // Fonction pour afficher le résultat de l'identification
+            function displayIdentificationResult(patientData) {
+                // --- Remplir la carte d'information patient (Assuré principal) ---
+                const patientInfoCard = document.getElementById('patient-info-card');
+                const piAvatar = document.getElementById('pi-avatar');
+                const photoUrl = patientData.ftpFace ?
+                    `https://10.30.30.21/${patientData.ftpFace}` :
+                    '/assets/images/default-avatar.png';
+                piAvatar.src = photoUrl;
+
+                document.getElementById('pi-name').textContent = patientData.nom || 'Non spécifié';
+                document.getElementById('pi-company').textContent = patientData.nomEmployeur || 'Non spécifié';
+                document.getElementById('pi-matricule').textContent = patientData.compteCotisant || 'N/A';
+                document.getElementById('pi-matricule-assure').textContent = patientData.numeroAssure || 'N/A';
+                document.getElementById('pi-regime-amo').textContent = patientData.regimeAmo || 'Non spécifié';
+                document.getElementById('pi-regime').textContent = patientData.regime || 'Non spécifié';
+                document.getElementById('pi-birth-date').textContent = patientData.dateNaiss ?
+                    new Date(patientData.dateNaiss).toLocaleDateString('fr-FR') :
+                    'Non spécifiée';
+                document.getElementById('pi-ssn').textContent = patientData.numeroBeneficiaire || 'N/A';
+
+                const careAccessEl = document.getElementById('pi-care-access');
+                const hasAccess = patientData.hasRight;
+                careAccessEl.textContent = hasAccess ? 'OUI' : 'NON';
+                careAccessEl.className = 'care_access_badge ' + (hasAccess ? 'access-yes' : 'access-no');
+
+                patientInfoCard.style.display = 'block';
+
+                // --- Remplir les cartes membres (box_item) ---
+                const resultDiv = document.getElementById('result-content');
+                resultDiv.innerHTML = "";
+                resultDiv.style.display = "flex";
+                resultDiv.style.flexWrap = "wrap";
+                resultDiv.style.gap = "20px";
+
+                // Carte de l'assuré principal
+                const membre = document.createElement('div');
+                membre.className = 'box_item';
+
+                membre.innerHTML = `
+                    <img src="${photoUrl}"
+                         class="loading"
+                         onload="this.classList.remove('loading')"
+                         alt="${patientData.nom}">
+                    <p style="font-size:.9rem; text-align:center; font-weight:bold; margin-bottom:8px;">
+                        ${patientData.nom}
+                    </p>
+                    <p class="birth_p">
+                        <i class="ti ti-calendar"></i>
+                        ${patientData.dateNaiss ? new Date(patientData.dateNaiss).toLocaleDateString('fr-FR') : "Non spécifiée"}
+                    </p>
+                    <a class="btn btn-primary-light btn-wave print_fiche" style="margin-top: 10px;">
+                        Imprimer
+                    </a>
+                `;
+                resultDiv.appendChild(membre);
+
+                // Cartes des bénéficiaires
+                if (patientData.beneficiaire && Array.isArray(patientData.beneficiaire)) {
+                    patientData.beneficiaire.forEach((ben, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'box_item';
+                        card.style.animationDelay = `${0.3 + (index * 0.1)}s`;
+
+                        const benPhoto = ben.ftpFace ?
+                            `https://10.30.30.21/${ben.ftpFace}` :
+                            (ben.Photo || '/assets/images/default-avatar.png');
+
+                        card.innerHTML = `
+                            <img src="${benPhoto}"
+                                 class="loading"
+                                 onload="this.classList.remove('loading')"
+                                 alt="${ben.nom || ''}">
+                            <p style="font-size:.9rem; text-align:center; font-weight:bold; margin-bottom:8px;">
+                                ${ben.nom || 'Non spécifié'}
+                            </p>
+                            <p class="birth_p">
+                                <i class="ti ti-calendar"></i>
+                                ${ben.dateNaiss || new Date(ben.dateNaiss).toLocaleDateString('fr-FR') || "N/A"}
+                            </p>
+                            <p style="font-size:.8rem; text-align:center; color:#4361ee;">
+                                N°Beneficiaire: ${ben.numeroBeneficiaire || "N/A"}
+                            </p>
+                            <a class="btn btn-primary-light btn-wave print_fiche" style="margin-top: 10px;">
+                                Imprimer
+                            </a>
+                        `;
+                        resultDiv.appendChild(card);
+                    });
+                }
+            }
 
             // Connexion au démarrage
             connectWebSocket();

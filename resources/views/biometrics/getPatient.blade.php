@@ -23,6 +23,7 @@
                     transform: translateX(80px) scale(0.95);
                     filter: blur(5px);
                 }
+
                 100% {
                     opacity: 1;
                     transform: translateX(0) scale(1);
@@ -35,6 +36,7 @@
                     opacity: 0;
                     transform: translateY(50px) rotateX(-10deg);
                 }
+
                 100% {
                     opacity: 1;
                     transform: translateY(0) rotateX(0);
@@ -46,9 +48,11 @@
                     opacity: 0;
                     transform: translateY(40px) scale(0.9);
                 }
+
                 70% {
                     transform: translateY(-5px) scale(1.02);
                 }
+
                 100% {
                     opacity: 1;
                     transform: translateY(0) scale(1);
@@ -60,6 +64,7 @@
                     opacity: 0;
                     transform: translateY(20px);
                 }
+
                 100% {
                     opacity: 1;
                     transform: translateY(0);
@@ -67,9 +72,12 @@
             }
 
             @keyframes glow {
-                0%, 100% {
+
+                0%,
+                100% {
                     box-shadow: 0 5px 20px rgba(67, 97, 238, 0.2);
                 }
+
                 50% {
                     box-shadow: 0 8px 30px rgba(67, 97, 238, 0.4);
                 }
@@ -79,6 +87,7 @@
                 0% {
                     background-position: -200% center;
                 }
+
                 100% {
                     background-position: 200% center;
                 }
@@ -135,7 +144,7 @@
                 overflow: hidden;
                 border: 1px solid rgba(255, 255, 255, 0.9);
                 opacity: 1;
-                animation:  0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                animation: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             }
 
             .box_item::before {
@@ -275,10 +284,10 @@
             }
 
             /* .birth_p::before {
-                content: '🎂';
-                margin-right: 8px;
-                font-size: 0.9em;
-            } */
+                            content: '🎂';
+                            margin-right: 8px;
+                            font-size: 0.9em;
+                        } */
 
             /* Titres */
             h5 {
@@ -303,45 +312,69 @@
 
             /* Délais d'animation */
             /* .box_item:nth-child(1) { animation-delay: 0.1s; }
-            .box_item:nth-child(2) { animation-delay: 0.2s; }
-            .box_item:nth-child(3) { animation-delay: 0.3s; }
-            .box_item:nth-child(4) { animation-delay: 0.4s; }
-            .box_item:nth-child(5) { animation-delay: 0.5s; }
-            .box_item:nth-child(6) { animation-delay: 0.6s; }
-            .box_item:nth-child(7) { animation-delay: 0.7s; }
-            .box_item:nth-child(8) { animation-delay: 0.8s; }
-            .box_item:nth-child(9) { animation-delay: 0.9s; }
-            .box_item:nth-child(10) { animation-delay: 1s; }
+                        .box_item:nth-child(2) { animation-delay: 0.2s; }
+                        .box_item:nth-child(3) { animation-delay: 0.3s; }
+                        .box_item:nth-child(4) { animation-delay: 0.4s; }
+                        .box_item:nth-child(5) { animation-delay: 0.5s; }
+                        .box_item:nth-child(6) { animation-delay: 0.6s; }
+                        .box_item:nth-child(7) { animation-delay: 0.7s; }
+                        .box_item:nth-child(8) { animation-delay: 0.8s; }
+                        .box_item:nth-child(9) { animation-delay: 0.9s; }
+                        .box_item:nth-child(10) { animation-delay: 1s; }
 
-            .fade-in:nth-child(1) { animation-delay: 0.1s; }
-            .fade-in:nth-child(2) { animation-delay: 0.2s; }
-            .fade-in:nth-child(3) { animation-delay: 0.3s; }
-            .fade-in:nth-child(4) { animation-delay: 0.4s; }
-            .fade-in:nth-child(5) { animation-delay: 0.5s; }
-            .fade-in:nth-child(6) { animation-delay: 0.6s; }
-            .fade-in:nth-child(7) { animation-delay: 0.7s; }
-            .fade-in:nth-child(8) { animation-delay: 0.8s; } */
+                        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+                        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+                        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+                        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+                        .fade-in:nth-child(5) { animation-delay: 0.5s; }
+                        .fade-in:nth-child(6) { animation-delay: 0.6s; }
+                        .fade-in:nth-child(7) { animation-delay: 0.7s; }
+                        .fade-in:nth-child(8) { animation-delay: 0.8s; } */
 
             /* Responsive */
             @media screen and (max-width: 1250px) {
-                .box_item { width: 15.8%; }
+                .box_item {
+                    width: 15.8%;
+                }
             }
 
             @media screen and (max-width: 1072px) {
-                .box_item { width: 19.1%; }
-                .pi_left { width: 50%; }
-                .pi_right { width: 49%; }
+                .box_item {
+                    width: 19.1%;
+                }
+
+                .pi_left {
+                    width: 50%;
+                }
+
+                .pi_right {
+                    width: 49%;
+                }
             }
 
             @media screen and (max-width: 900px) {
-                .box_item { width: 24.2%; }
-                .left_side { width: 25%; }
-                .right_side { width: 70%; }
+                .box_item {
+                    width: 24.2%;
+                }
+
+                .left_side {
+                    width: 25%;
+                }
+
+                .right_side {
+                    width: 70%;
+                }
             }
 
             @media screen and (max-width: 800px) {
-                .box_item { width: 24.2%; }
-                .left_side, .right_side { width: 100%; }
+                .box_item {
+                    width: 24.2%;
+                }
+
+                .left_side,
+                .right_side {
+                    width: 100%;
+                }
             }
 
             @media screen and (max-width: 550px) {
@@ -349,7 +382,11 @@
                     width: 100%;
                     margin-bottom: 20px;
                 }
-                .pi_left, .pi_right { width: 100%; }
+
+                .pi_left,
+                .pi_right {
+                    width: 100%;
+                }
             }
 
             /* Effet de particules subtil */
@@ -377,13 +414,13 @@
             <div class="container-fluid">
 
                 <!-- Breadcrumb avec animation -->
-                    <div>
-                        <x-breadcrumb.wrapper title="Imprimer une fiche d'autorisation">
-                            <x-breadcrumb.item title="Tableau de bord" />
-                            <x-breadcrumb.item title="Bureau d'entrée" />
-                            <x-breadcrumb.item title="Imprimer" type="active" />
-                        </x-breadcrumb.wrapper>
-                    </div>
+                <div>
+                    <x-breadcrumb.wrapper title="Imprimer une fiche d'autorisation">
+                        <x-breadcrumb.item title="Tableau de bord" />
+                        <x-breadcrumb.item title="Bureau d'entrée" />
+                        <x-breadcrumb.item title="Imprimer" type="active" />
+                    </x-breadcrumb.wrapper>
+                </div>
 
                 <!-- Messages de session -->
                 <div class="fade-in" style="animation-delay: 0.2s;">
@@ -397,7 +434,8 @@
                 <!-- Section principale -->
                 <div>
                     <div class="g-3 mt-0 bg-white mb-3 create_user_form p-4 rounded-1 right_side slide-in-right">
-                        <h5 style="font-size: 1.1rem;" class="fade-in">📋 Informations sur le patient (Assuré principal)</h5>
+                        <h5 style="font-size: 1.1rem;" class="fade-in">📋 Informations sur le patient (Assuré principal)
+                        </h5>
                         <div class="patient_information">
                             <div class="patient_information_wrapper justify-content-between" style="display: none">
                                 <!-- Photo et nom -->
@@ -453,7 +491,8 @@
                                     <!-- Ligne 5 - Accès -->
                                     <div class="pi_right_block fade-in" style="animation-delay: 1.1s;">
                                         <strong>🩺 Accès au soins</strong>
-                                        <span class="care_access" style="background: green; color:white; padding: 5px 8px;"></span>
+                                        <span class="care_access"
+                                            style="background: green; color:white; padding: 5px 8px;"></span>
                                     </div>
 
                                     <!-- Bouton -->
@@ -482,7 +521,7 @@
         </div>
         <!-- End::app-content -->
 
-        @section('js')
+    @section('js')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Simulation du contenu retourné par ton contrôleur
@@ -501,13 +540,18 @@
                     patientImg.src = patientPrincipal.Photo || "/assets/images/default-avatar.png";
                     patientImg.classList.remove('loading');
 
-                    document.querySelector('.patient_name').textContent = patientPrincipal["Nom AX"] || patientPrincipal.Nom || "";
-                    document.querySelector('.company_name').textContent = patientPrincipal["Nom de l'employeur"] || "Non spécifié";
+                    document.querySelector('.patient_name').textContent = patientPrincipal["Nom AX"] || patientPrincipal
+                        .Nom || "";
+                    document.querySelector('.company_name').textContent = patientPrincipal["Nom de l'employeur"] ||
+                        "Non spécifié";
                     document.querySelector('.matricule').textContent = patientPrincipal["Compte Cotisant"] || "N/A";
-                    document.querySelector('.matricule_assure').textContent = patientPrincipal["Compte Assuré"] || "N/A";
-                    document.querySelector('.regime_amo_pass').textContent = patientPrincipal["Regime Travailleur"] || "Non spécifié";
+                    document.querySelector('.matricule_assure').textContent = patientPrincipal["Compte Assuré"] ||
+                        "N/A";
+                    document.querySelector('.regime_amo_pass').textContent = patientPrincipal["Regime Travailleur"] ||
+                        "Non spécifié";
                     document.querySelector('.regime').textContent = patientPrincipal.Regime || "Non spécifié";
-                    document.querySelector('.birth_date').textContent = patientPrincipal["Date de naissance"] || "Non spécifiée";
+                    document.querySelector('.birth_date').textContent = patientPrincipal["Date de naissance"] ||
+                        "Non spécifiée";
                     document.querySelector('.ssn').textContent = patientPrincipal.SSN || "N/A";
                     document.querySelector('.care_access').textContent = patientPrincipal.Acces_soin || "Non spécifié";
 
@@ -543,12 +587,21 @@
 
                             // Relation avec une icône
                             let relationIcon = "👤";
-                            switch(member.RelationCode) {
-                                case "00": relationIcon = "👨‍💼"; break; // Principal
-                                case "01": relationIcon = "👰"; break;  // Conjoint
-                                case "02": relationIcon = "👶"; break;  // Enfant
-                                case "03": relationIcon = "👵"; break;  // Parent
-                                default: relationIcon = "👤";
+                            switch (member.RelationCode) {
+                                case "00":
+                                    relationIcon = "👨‍💼";
+                                    break; // Principal
+                                case "01":
+                                    relationIcon = "👰";
+                                    break; // Conjoint
+                                case "02":
+                                    relationIcon = "👶";
+                                    break; // Enfant
+                                case "03":
+                                    relationIcon = "👵";
+                                    break; // Parent
+                                default:
+                                    relationIcon = "👤";
                             }
 
                             card.innerHTML = `
@@ -587,6 +640,6 @@
                 }
             });
         </script>
-        @endsection
     @endsection
+@endsection
 </x-app-layout>

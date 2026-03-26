@@ -2,40 +2,21 @@
     @section('title', 'Capture Visage')
     @section('css')
         <style>
+            :root {
+                --primary-color: #0D6EFD;
+                --secondary-color: #003B73;
+                --accent-color: #0A58CA;
+                --light-bg: #f8f9fa;
+                --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                --hover-shadow: 0 15px 40px rgba(67, 97, 238, 0.15);
+                --transition-smooth: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
             .biometric-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 30px;
-            }
-
-            .biometric-title {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-            }
-
-            .biometric-title-icon {
-                width: 58px;
-                height: 58px;
-                background: #eaf1ff;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 24px;
-                color: #4a7dff;
-            }
-
-            .biometric-title h2 {
-                margin: 0;
-                font-weight: 700;
-            }
-
-            .biometric-title p {
-                margin: 0;
-                color: #6b7280;
-                font-size: 14px;
             }
 
             .status-indicator {
@@ -334,16 +315,224 @@
                 display: none;
             }
 
-            .birth_p {
-                margin: .3rem;
-                margin-top: 0;
-                font-size: .8rem;
-                font-weight: bold;
-                background: #eef0f9;
+            /* Style des cartes de membres */
+            .box_item {
+                width: 13.42%;
+                background: white;
+                border-radius: 16px;
+                padding: 15px;
+                box-shadow: var(--card-shadow);
+                transition: var(--transition-smooth);
+                position: relative;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.9);
+                opacity: 1;
+                animation: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            }
+
+            .box_item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .box_item:hover {
+                /* transform: translateY(-10px) scale(1.03); */
+                box-shadow: var(--hover-shadow);
+                animation: glow 2s infinite;
+            }
+
+            .box_item:hover::before {
+                transform: scaleX(1);
+            }
+
+            .box_item img {
                 width: 100%;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 12px;
+                margin-bottom: 15px;
+                transition: var(--transition-smooth);
+                filter: grayscale(20%);
+            }
+
+            /* Animation des éléments textuels */
+            .fade-in {
+                opacity: 0;
+                animation: fadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            }
+
+            /* Style du bouton */
+            .print_family_file {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                border: none;
+                border-radius: 50px;
+                padding: 12px 30px;
+                color: white;
+                font-weight: 600;
+                transition: var(--transition-smooth);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .print_family_file::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.7s;
+            }
+
+            .print_family_file:hover::before {
+                left: 100%;
+            }
+
+            .print_family_file:hover {
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+            }
+
+            /* Date de naissance */
+            .birth_p {
+                background: linear-gradient(135deg, #e0e7ff, #dbe4ff);
+                color: var(--secondary-color);
+                padding: 8px;
+                border-radius: 10px;
+                font-weight: 600;
+                margin: 10px 0;
+                position: relative;
+                overflow: hidden;
+                transition: var(--transition-smooth);
+            }
+
+            .box_item img.loading {
+                background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                background-size: 200% 100%;
+                animation: shimmer 1.5s infinite linear;
+            }
+
+            .box_of_item {
+                position: relative;
+                padding: 20px;
+                margin: 30px 0 20px;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 20px;
+            }
+
+            .box_of_item h3 {
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 700;
+                font-size: 1.5rem;
+                border-bottom: 2px solid var(--primary-color);
+                padding-bottom: 10px;
+            }
+
+            /* ===== PATIENT INFORMATION CARD ===== */
+            .patient_info_card {
+                max-width: 78%;
+                width: 100%;
+                background: linear-gradient(145deg, #ffffff, #f8f9ff);
+                border-radius: 20px;
+                box-shadow: var(--card-shadow);
+                border: 1px solid rgba(255, 255, 255, 0.8);
+                padding: 20px;
+                margin-bottom: 20px;
+                position: relative;
+                overflow: hidden;
+                transition: var(--transition-smooth);
+            }
+
+            .patient_info_card h5 {
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 700;
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
+
+            .patient_information_wrapper {
+                display: flex;
+                gap: 10px;
+            }
+
+            .pi_left {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-width: 40px;
+            }
+
+            .pi_left_img {
+                width: 120px;
+                height: 120px;
+                border-radius: 20px;
+                object-fit: cover;
+                border: 5px solid white;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .pi_left_img:hover {
+                box-shadow: 0 15px 40px rgba(67, 97, 238, 0.2);
+            }
+
+            .patient_name {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--secondary-color);
                 text-align: center;
-                padding: .1rem;
-                border-radius: .2rem;
+                margin-top: 15px;
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .pi_right {
+                flex: 1;
+            }
+
+            .pi_right_block strong {
+                color: var(--secondary-color);
+                font-size: 15px;
+                display: block;
+                /* margin-bottom: 5px; */
+                font-weight: 300;
+            }
+
+            .pi_right_block span {
+                color: #333;
+                font-size: 15px;
+                font-weight: 500;
+            }
+
+            .care_access_badge {
+                display: inline-block;
+                padding: 5px 15px;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 0.9rem;
+            }
+
+            .care_access_badge.access-yes {
+                background: #10b981;
+                color: white;
+            }
+
+            .care_access_badge.access-no {
+                background: #ef4444;
+                color: white;
             }
         </style>
     @endsection
@@ -354,19 +543,12 @@
             <div class="container-fluid">
                 <!-- HEADER -->
                 <div class="biometric-header">
-                    <div class="biometric-title">
-                        <div class="biometric-title-icon">
-                            <i class="ti ti-scan"></i>
-                        </div>
-                        <div>
-                            <h2>Reconnaissance Faciale</h2>
-                            <p>Capture du visage pour l'identification</p>
-                        </div>
-                    </div>
+                    <x-biometric-header title="Reconnaissance Faciale" description="Capture du visage pour l'identification"
+                        icon="ti ti-scan" />
 
-                    <div id="statusIndicator" class="status-indicator status-disconnected">
-                        <i class="ti ti-wifi-off"></i>
-                        <span>Déconnecté</span>
+                    <div id="statusIndicator" class="status-indicator status-connecting">
+                        <i class="ti ti-wifi"></i>
+                        <span>En cours...</span>
                     </div>
                 </div>
 
@@ -480,10 +662,74 @@
 
                 </div>
 
-                <div id="identification-result">
+                <div id="identification-result" class="box_of_item" style="display: none;">
+                    <h3>
+                        <i class="ti ti-user"></i> Résultat de l'identification
+                    </h3>
 
+                    <!-- Patient Information Card (Assuré principal) -->
+                    <div id="patient-info-card" class="patient_info_card" style="display: none;">
+                        <h5>Informations sur le patient (Assuré principal)</h5>
+                        <div class="patient_information_wrapper">
+                            <!-- Photo et nom -->
+                            <div class="pi_left">
+                                <img class="pi_left_img" id="pi-avatar" src="" alt="user avatar" />
+                                <h6 class="patient_name" id="pi-name"></h6>
+                            </div>
+
+                            <!-- Informations détaillées -->
+                            <div class="pi_right">
+                                <div class="pi_right_block">
+                                    <strong>Nom de l'employeur</strong>
+                                    <span id="pi-company"></span>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-3">
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Numéro de l'employeur</strong>
+                                        <span id="pi-matricule"></span>
+                                    </div>
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Numéro de compte assuré</strong>
+                                        <span id="pi-matricule-assure"></span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-3">
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Régime assurance maladie</strong>
+                                        <span id="pi-regime-amo"></span>
+                                    </div>
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Régime travailleur</strong>
+                                        <span id="pi-regime"></span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-3 mb-3">
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>Date de naissance</strong>
+                                        <span id="pi-birth-date"></span>
+                                    </div>
+                                    <div class="pi_right_block flex-grow-1">
+                                        <strong>SSN</strong>
+                                        <span id="pi-ssn"></span>
+                                    </div>
+                                </div>
+
+                                <div class="pi_right_block">
+                                    <strong>Accès au soins</strong>
+                                    <span id="pi-care-access" class="care_access_badge"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Beneficiary Information Card (Assuré principal) -->
+                    <div id="result-content" style="padding: 20px;">
+
+                    </div>
                 </div>
-
             </div>
         </div>
         <!-- End::app-content -->
@@ -511,114 +757,67 @@
             const capturedImage = document.getElementById('captured-image');
             const placeholder = document.getElementById('placeholder');
             const identifyBtn = document.getElementById('identifyBtn');
+            const overlay = document.getElementById('scanOverlay');
+            const scanImage = document.querySelector('.scan-image');
+            const scanLine = document.querySelector('.scan-line');
+            const identificationResult = document.getElementById('identification-result');
             let isRunning = false;
+            let scanning = false;
             let ws = null;
             let wsRetries = 0;
 
-            async function checkWebcam() {
-                try {
-                    // Demander la permission d'abord (indispensable)
-
-                    const devices = await navigator.mediaDevices.enumerateDevices();
-                    const videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-                    // Filtrer pour trouver une caméra qui n'est pas "intégrée"
-                    const externalCamera = videoDevices.find(device => {
-                        const label = device.label.toLowerCase();
-
-                        // Liste noire des termes techniques de caméras intégrées
-                        const internalTerms = [
-                            'integrated',
-                            'built-in',
-                            'facetime',
-                            'front',
-                            'ov02c10', // Votre capteur spécifique
-                            'camera vga'
-                        ];
-
-                        // On vérifie si le label contient l'un des termes de la liste noire
-                        const isInternal = internalTerms.some(term => label.includes(term));
-
-                        // On ne garde que ce qui n'est PAS interne ET qui a un nom
-                        return !isInternal && label.trim() !== '';
-                    });
-
-                    if (externalCamera) {
-                        console.log('Webcam externe détectée :', externalCamera.label);
-                        setStatus('status-connected', 'Caméra branchée', 'ti ti-wifi');
-                        return true;
-                    } else {
-                        await stopLive();
-                        updateButtonState(false);
-                        console.log('Seule la webcam intégrée ou aucune caméra externe détectée.');
-                        setStatus('status-disconnected', 'Caméra non branchée', 'ti ti-wifi-off');
-                        return false;
-                    }
-                } catch (error) {
-                    console.error('Erreur d\'accès à la caméra :', error);
+            function connectWebSocket() {
+                if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
+                    return;
                 }
+
+                // Use 'wss' protocol and port 8443 as requested
+                ws = new WebSocket('wss://localhost:8443/ws/biometric-events');
+
+                ws.onopen = () => {
+                    console.log('WebSocket Connected');
+                    setStatus('status-connected', 'Connecté', 'ti ti-wifi');
+                    wsRetries = 0;
+                };
+
+                ws.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        handleWebSocketMessage(data);
+                    } catch (e) {
+                        console.error('Error parsing WS message', e);
+                    }
+                };
+
+                ws.onerror = (error) => {
+                    console.error('WebSocket Error', error);
+                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
+                };
+
+                ws.onclose = () => {
+                    console.log('WebSocket Closed');
+                    setStatus('status-disconnected', 'Déconnecté', 'ti ti-wifi-off');
+                    ws = null;
+                    // Auto-reconnect if supposed to be running
+                    if (isRunning && wsRetries < 5) {
+                        setTimeout(() => {
+                            wsRetries++;
+                            connectWebSocket();
+                        }, 2000);
+                    }
+                };
             }
 
-            navigator.mediaDevices.ondevicechange = (event) => {
-                console.log("Changement de périphérique détecté...");
-                checkWebcam();
-            };
+            function disconnectWebSocket() {
+                if (ws) {
+                    ws.close();
+                    ws = null;
+                }
+            }
 
             // Déconnecter le WebSocket quand on quitte la page
             window.addEventListener('beforeunload', () => {
                 stopLive();
-            });
-
-            async function stopLive() {
-                try {
-                    await fetch('https://localhost:8443/stop-live');
-                } catch (error) {
-                    console.error('Stop failed:', error);
-                }
-            }
-
-            startBtn.addEventListener('click', async () => {
-                if (isRunning) {
-                    try {
-                        await stopLive();
-                        updateButtonState(false);
-                        // await checkStatus();
-                    } catch (error) {
-                        console.error('Stop failed:', error);
-                    }
-                    return;
-                }
-
-                try {
-
-                    const webcamAvailable = await checkWebcam();
-
-                    if (!webcamAvailable) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Webcam introuvable',
-                            text: 'Aucune webcam détectée sur cet appareil'
-                        });
-
-                        return;
-                    }
-
-                    // setStatus('status-connecting', 'Connexion...', 'ti ti-loader');
-
-                    const response = await fetch('https://localhost:8443/start-live');
-                    const data = await response.json();
-
-                    if (data.status === 'started') {
-                        // await checkStatus();
-                        console.log('started');
-                        updateButtonState(true);
-                    } else {
-                        setStatus('status-disconnected', 'Échec', 'ti ti-wifi-off');
-                    }
-
-                } catch (error) {
-                    setStatus('status-disconnected', 'Erreur', 'ti ti-alert-circle');
-                }
             });
 
             function setStatus(type, text, icon) {
@@ -664,7 +863,6 @@
                         display: 'none'
                     });
                     video.src = 'https://localhost:8443/video-live';
-                    connectWebSocket();
                 } else {
                     startBtn.innerHTML = '<i class="ti ti-video"></i> Démarrer';
                     startBtn.classList.remove('btn-stop');
@@ -677,53 +875,6 @@
                         display: 'flex'
                     });
                     video.src = '';
-                    disconnectWebSocket();
-                }
-            }
-
-            function connectWebSocket() {
-                if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
-                    return;
-                }
-
-                // Use 'wss' protocol and port 8443 as requested
-                ws = new WebSocket('wss://localhost:8443/ws/biometric-events');
-
-                ws.onopen = () => {
-                    console.log('WebSocket Connected');
-                    wsRetries = 0;
-                };
-
-                ws.onmessage = (event) => {
-                    try {
-                        const payload = JSON.parse(event.data);
-                        handleWebSocketMessage(payload);
-                    } catch (e) {
-                        console.error('Error parsing WS message', e);
-                    }
-                };
-
-                ws.onerror = (error) => {
-                    console.error('WebSocket Error', error);
-                };
-
-                ws.onclose = () => {
-                    console.log('WebSocket Closed');
-                    ws = null;
-                    // Auto-reconnect if supposed to be running
-                    if (isRunning && wsRetries < 5) {
-                        setTimeout(() => {
-                            wsRetries++;
-                            connectWebSocket();
-                        }, 2000);
-                    }
-                };
-            }
-
-            function disconnectWebSocket() {
-                if (ws) {
-                    ws.close();
-                    ws = null;
                 }
             }
 
@@ -738,21 +889,40 @@
                 return result;
             };
 
-            function handleWebSocketMessage(payload) {
-                if (payload.type === 'QUALITY_METRICS') {
-                    const metrics = retrieveMetrics(payload.message);
-                    updateUIWithMetrics(metrics);
-                    // If we get metrics, it implies a face is detected and processed
-                    updateMetric('face', '1', 'good');
-                } else if (payload.type === 'QUALITY_CHECK') {
-                    if (payload.message.includes('Aucun visage')) {
-                        updateMetric('face', '0', 'bad');
-                        resetMetrics();
-                    } else if (payload.message.includes('Deux visages')) {
-                        updateMetric('face', '2', 'warning');
-                    } else if (payload.message.includes('Plusieurs visages')) { // Handle potential other messages
-                        updateMetric('face', '2+', 'warning');
-                    }
+            // Gérer les messages WebSocket
+            function handleWebSocketMessage(data) {
+                const {
+                    type,
+                    message
+                } = data;
+
+                switch (type) {
+                    case 'CAMERA_ERROR':
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Webcam non détectée',
+                            text: 'Veuillez connecter une webcam'
+                        });
+                        break;
+                    case 'QUALITY_METRICS':
+                        // Afficher l'aperçu en temps réel
+                        const metrics = retrieveMetrics(message);
+                        updateUIWithMetrics(metrics);
+                        // If we get metrics, it implies a face is detected and processed
+                        updateMetric('face', '1', 'good');
+                        break;
+                    case 'QUALITY_CHECK':
+                        if (message.includes('Aucun visage')) {
+                            updateMetric('face', '0', 'bad');
+                            resetMetrics();
+                        } else if (message.includes('Deux visages')) {
+                            updateMetric('face', '2', 'warning');
+                        } else if (message.includes('Plusieurs visages')) { // Handle potential other messages
+                            updateMetric('face', '2+', 'warning');
+                        }
+                        break;
+                    default:
+                        console.log('Message non géré:', type, message);
                 }
             }
 
@@ -795,8 +965,46 @@
                 }
             }
 
+            async function stopLive() {
+                try {
+                    await fetch('https://localhost:8443/stop-live');
+                } catch (error) {
+                    console.error('Stop failed:', error);
+                }
+            }
+
+            startBtn.addEventListener('click', async () => {
+                if (isRunning) {
+                    try {
+                        await stopLive();
+                        updateButtonState(false);
+                    } catch (error) {
+                        console.error('Stop failed:', error);
+                    }
+                    return;
+                }
+
+                try {
+
+                    const response = await fetch('https://localhost:8443/start-live');
+                    const data = await response.json();
+
+                    if (data.status === 'started') {
+                        console.log('started');
+                        updateButtonState(true);
+                    } else {
+                        console.log('data status:', data.status);
+                    }
+
+                } catch (error) {
+                    console.log('error:', error);
+                }
+            });
+
             captureBtn.addEventListener('click', async () => {
                 if (!isRunning) return;
+
+                identificationResult.style.display = 'none';
 
                 try {
                     const response = await fetch('https://localhost:8443/capture-live');
@@ -906,18 +1114,20 @@
                     } else {
                         console.error('No image data in response');
                         console.log("No image data in response");
-                        setStatus('status-disconnected', 'Erreur Capture', 'ti ti-alert-circle');
                     }
 
                 } catch (error) {
                     console.error('Capture error:', error);
                     console.log("Capture error");
-                    setStatus('status-disconnected', 'Erreur Capture', 'ti ti-alert-circle');
                 }
             });
 
             identifyBtn.addEventListener('click', function() {
-                sendBiometricData(capturedImage.src);
+                try {
+                    sendBiometricData(capturedImage.src);
+                } catch (e) {
+                    console.error(e);
+                }
             });
 
             const getToken = async () => {
@@ -987,7 +1197,8 @@
                         beneficiaires: data.beneficiaire
                     });
 
-                    // displayIdentificationResult(data);
+                    identificationResult.style.display = 'block';
+                    displayIdentificationResult(data);
 
                     // 4. Défilement automatique vers le bas
                     window.scrollTo({
@@ -1002,15 +1213,101 @@
 
             // Fonction pour afficher le résultat de l'identification
             function displayIdentificationResult(patientData) {
-                const resultDiv = document.getElementById('identification-result');
+                // --- Remplir la carte d'information patient (Assuré principal) ---
+                const patientInfoCard = document.getElementById('patient-info-card');
+                const piAvatar = document.getElementById('pi-avatar');
+                const photoUrl = patientData.ftpFace ?
+                    `https://10.30.30.21/${patientData.ftpFace}` :
+                    '/assets/images/default-avatar.png';
+                piAvatar.src = photoUrl;
 
-                // Construction du HTML avec le même style que getPatient
-                resultDiv.innerHTML = `
-                    
+                document.getElementById('pi-name').textContent = patientData.nom || 'Non spécifié';
+                document.getElementById('pi-company').textContent = patientData.nomEmployeur || 'Non spécifié';
+                document.getElementById('pi-matricule').textContent = patientData.compteCotisant || 'N/A';
+                document.getElementById('pi-matricule-assure').textContent = patientData.numeroAssure || 'N/A';
+                document.getElementById('pi-regime-amo').textContent = patientData.regimeAmo || 'Non spécifié';
+                document.getElementById('pi-regime').textContent = patientData.regime || 'Non spécifié';
+                document.getElementById('pi-birth-date').textContent = patientData.dateNaiss ?
+                    new Date(patientData.dateNaiss).toLocaleDateString('fr-FR') :
+                    'Non spécifiée';
+                document.getElementById('pi-ssn').textContent = patientData.numeroBeneficiaire || 'N/A';
+
+                const careAccessEl = document.getElementById('pi-care-access');
+                const hasAccess = patientData.hasRight;
+                careAccessEl.textContent = hasAccess ? 'OUI' : 'NON';
+                careAccessEl.className = 'care_access_badge ' + (hasAccess ? 'access-yes' : 'access-no');
+
+                patientInfoCard.style.display = 'block';
+
+                // --- Remplir les cartes membres (box_item) ---
+                const resultDiv = document.getElementById('result-content');
+                resultDiv.innerHTML = "";
+                resultDiv.style.display = "flex";
+                resultDiv.style.flexWrap = "wrap";
+                resultDiv.style.gap = "20px";
+
+                // Carte de l'assuré principal
+                const membre = document.createElement('div');
+                membre.className = 'box_item';
+
+                membre.innerHTML = `
+                    <img src="${photoUrl}"
+                         class="loading"
+                         onload="this.classList.remove('loading')"
+                         alt="${patientData.nom}">
+                    <p style="font-size:.9rem; text-align:center; font-weight:bold; margin-bottom:8px;">
+                        ${patientData.nom}
+                    </p>
+                    <p class="birth_p">
+                        <i class="ti ti-calendar"></i>
+                        ${patientData.dateNaiss ? new Date(patientData.dateNaiss).toLocaleDateString('fr-FR') : "Non spécifiée"}
+                    </p>
+                    <p style="font-size:.8rem; text-align:center; color:#4361ee;">
+                        🆔 SSN: ${patientData.numeroBeneficiaire || "N/A"}
+                    </p>
+                    <a class="btn btn-primary-light btn-wave print_fiche" style="margin-top: 10px;">
+                        Imprimer
+                    </a>
                 `;
+                resultDiv.appendChild(membre);
+
+                // Cartes des bénéficiaires
+                if (patientData.beneficiaire && Array.isArray(patientData.beneficiaire)) {
+                    patientData.beneficiaire.forEach((ben, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'box_item';
+                        card.style.animationDelay = `${0.3 + (index * 0.1)}s`;
+
+                        const benPhoto = ben.ftpFace ?
+                            `https://10.30.30.21/${ben.ftpFace}` :
+                            (ben.Photo || '/assets/images/default-avatar.png');
+
+                        card.innerHTML = `
+                            <img src="${benPhoto}"
+                                 class="loading"
+                                 onload="this.classList.remove('loading')"
+                                 alt="${ben.nom || ''}">
+                            <p style="font-size:.9rem; text-align:center; font-weight:bold; margin-bottom:8px;">
+                                ${ben.nom || 'Non spécifié'}
+                            </p>
+                            <p class="birth_p">
+                                <i class="ti ti-calendar"></i>
+                                ${ben.dateNaiss || new Date(ben.dateNaiss).toLocaleDateString('fr-FR') || "N/A"}
+                            </p>
+                            <p style="font-size:.8rem; text-align:center; color:#4361ee;">
+                                N°Beneficiaire: ${ben.numeroBeneficiaire || "N/A"}
+                            </p>
+                            <a class="btn btn-primary-light btn-wave print_fiche" style="margin-top: 10px;">
+                                Imprimer
+                            </a>
+                        `;
+                        resultDiv.appendChild(card);
+                    });
+                }
             }
             // checkStatus();
-            checkWebcam();
+            // checkWebcam();
+            connectWebSocket();
         </script>
     @endsection
 </x-app-layout>
