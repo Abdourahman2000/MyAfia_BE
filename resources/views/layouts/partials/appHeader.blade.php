@@ -141,7 +141,7 @@
                      <!-- End::header-element -->
 
                      <!-- Start::header-element -->
-                     <div class="header-element header-theme-mode">
+                     {{-- <div class="header-element header-theme-mode">
                          <!-- Start::header-link|layout-setting -->
                          <a href="javascript:void(0);" class="header-link layout-setting">
                              <span class="light-layout">
@@ -164,7 +164,7 @@
                              </span>
                          </a>
                          <!-- End::header-link|layout-setting -->
-                     </div>
+                     </div> --}}
                      <!-- End::header-element -->
 
                      <!-- Start::header-element -->

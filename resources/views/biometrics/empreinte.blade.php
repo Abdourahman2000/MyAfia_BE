@@ -667,7 +667,7 @@
 
             let websocket = null;
             let capturedImages = [];
-            let currentCaptureType = null;
+            let captureType = null;
 
             // Établir la connexion WebSocket
             function connectWebSocket() {
@@ -768,7 +768,7 @@
                     case 'CAPTURE_ERROR':
                         // Gérer les erreurs
                         console.error('Erreur:', message);
-                        showError(message);
+                        // showError(message);
                         resetCapture();
                         break;
                     default:
@@ -779,7 +779,7 @@
             // Déclencher la capture
             async function startCapture(type, endpoint) {
                 try {
-                    currentCaptureType = type;
+                    setCaptureType(type);
                     capturedImages = [];
 
                     // Désactiver les boutons pendant la capture
@@ -864,7 +864,7 @@
                     'thumbs': ['Pouces', 'Pouce D', 'Pouce G', '', '']
                 };
 
-                const currentLabels = labels[currentCaptureType] || ['Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5'];
+                const currentLabels = labels[captureType] || ['Image 1', 'Image 2', 'Image 3', 'Image 4', 'Image 5'];
 
                 capturedImagesContainer.style.display = 'none';
                 imagesGrid.style.display = 'grid';
@@ -890,14 +890,14 @@
             }
 
             // Afficher une erreur
-            function showError(message) {
-                alert(`Erreur: ${message}`);
-            }
+            // function showError(message) {
+            //     alert(`Erreur: ${message}`);
+            // }
 
             // Réinitialiser la capture
             function resetCapture() {
                 capturedImages = [];
-                currentCaptureType = null;
+                captureType = null;
                 progressIndicator.style.display = 'none';
                 scannerPreview.classList.remove('active');
                 instructionMessage.style.display = 'none';
@@ -915,12 +915,18 @@
                 statusIndicator.innerHTML = `<i class="${icon}"></i><span>${text}</span>`;
             }
 
+            function setCaptureType(type) {
+                captureType = type;
+                console.log(captureType);
+            }
+
             // Event Listeners
             captureRightBtn.addEventListener('click', () => {
                 identificationResult.style.display = 'none';
 
                 try {
                     startCapture('right-four', '/capture-right-four');
+                    setCaptureType('RIGHT_FOUR');
                 } catch (error) {
                     console.error('Erreur démarrage capture:', error);
                     resetCapture();
@@ -932,6 +938,7 @@
                 identificationResult.style.display = 'none';
                 try {
                     startCapture('left-four', '/capture-left-four');
+                    setCaptureType('LEFT_FOUR');
                 } catch (error) {
                     console.error('Erreur démarrage capture:', error);
                     resetCapture();
@@ -942,6 +949,7 @@
                 identificationResult.style.display = 'none';
                 try {
                     startCapture('thumbs', '/capture-thumbs');
+                    setCaptureType('THUMBS');
                 } catch (error) {
                     console.error('Erreur démarrage capture:', error);
                     resetCapture();
@@ -970,18 +978,34 @@
                 });
             }
 
+            const FINGER_NAME_MAP = {
+                RIGHT_FOUR: [
+                    "RightHand", // [0] image globale → EXCLUE
+                    "RightIndex", // [1]
+                    "RightMiddle", // [2]
+                    "RightLittle", // [3]
+                    "RightRing", // [4]
+                ],
+                LEFT_FOUR: [
+                    "LeftHand", // [0] image globale → EXCLUE
+                    "LeftIndex", // [1]
+                    "LeftMiddle", // [2]
+                    "LeftLittle", // [4]
+                    "LeftRing", // [3]
+                ],
+                THUMBS: [
+                    "Thumbs", // [0] image globale → EXCLUE
+                    "LeftThumb", // [1]
+                    "RightThumb", // [2]
+                ],
+            };
+
             /**
              * Prépare les images pour l'envoi au backend
              */
-            function prepareFormData(capturedImages) {
-                // IMPORTANT : Noms exacts attendus par le backend
-                const fingerNames = [
-                    "RightHand", // Image 1 : Main complète
-                    "RightIndex", // Image 2 : Index
-                    "RightMiddle", // Image 3 : Majeur
-                    "RightLittle", // Image 4 : Auriculaire
-                    'RightRing' // Image 5 : Annulaire
-                ];
+            function prepareFormData(capturedType) {
+
+                const fingerNames = FINGER_NAME_MAP[capturedType];
 
                 console.log("fingerNames:", fingerNames.slice(1));
                 console.log("capturedImages.slice(1):", capturedImages.slice(1));
@@ -1020,15 +1044,15 @@
             /**
              * Envoie les empreintes au backend pour identification
              */
-            async function sendFingerprints(capturedImages) {
+            async function sendFingerprints(captureType) {
                 try {
                     // Vérifier qu'on a bien les 5 images
-                    if (capturedImages.length !== 5) {
-                        throw new Error(`Images incomplètes: ${capturedImages.length}/5`);
-                    }
+                    // if (capturedImages.length !== 5) {
+                    //     throw new Error(`Images incomplètes: ${capturedImages.length}/5`);
+                    // }
 
                     // Préparer le FormData
-                    const formData = prepareFormData(capturedImages);
+                    const formData = prepareFormData(captureType);
                     console.log("Envoi des empreintes au backend...");
                     for (const [key, value] of formData) {
                         console.log("key, value:", key, value);
@@ -1074,17 +1098,71 @@
                     }
                 } catch (error) {
                     console.error("❌ Erreur lors de l'envoi des empreintes :", error);
-                    showError("Impossible de vérifier les empreintes. Veuillez réessayer.");
+                    // showError("Impossible de vérifier les empreintes. Veuillez réessayer.");
                 }
             }
 
             sendBtn.addEventListener('click', function() {
                 try {
-                    sendFingerprints(capturedImages);
+                    sendFingerprints(captureType);
                 } catch (error) {
-                    onsole.log('error', error);
+                    console.log('error', error);
                 }
             });
+
+            // const sendCapturedFingers = async (captureType = "RIGHT_FOUR") => {
+            //     console.log("Début de l'envoi des empreintes :", captureType);
+            //     // setIsLoading(true);
+            //     try {
+            //         // Les noms de doigts va dependre du type de capture 
+            //         const fingerNames = FINGER_NAME_MAP[captureType];
+            //         if (!fingerNames) {
+            //             throw new Error("Type de capture invalide")
+            //         }
+            //         // Il faut que le nombre de captures soit equivalent au nombre de doigts souhaiter (fingerNames comme reference)
+            //         if (capturedImages.length !== fingerNames.length) {
+            //             throw new Error(
+            //                 `Nombre d'empreintes incorrect (${capturedImages.length}/${fingerNames.length})`)
+            //         }
+            //         const formData = new FormData();
+            //         capturedImages.slice(1).forEach((img, index) => {
+            //             const base64 = img.split(",")[1];
+            //             const byteCharacters = atob(base64);
+            //             const byteNumbers = new Array(byteCharacters.length);
+            //             for (let i = 0; i < byteCharacters.length; i++) {
+            //                 byteNumbers[i] = byteCharacters.charCodeAt(i);
+            //             }
+            //             const blob = new Blob([new Uint8Array(byteNumbers)], {
+            //                 type: "image/png"
+            //             });
+            //             formData.append("request", blob, `${fingerNames.slice(1)[index]}.png`);
+            //         });
+
+            //         console.log("FormData :", [...formData.entries()]);
+            //         const token = await getToken();
+            //         const res = await fetch("https://10.30.30.22/api/Enrollement/check", {
+            //             method: "POST",
+            //             body: formData,
+            //             headers: {
+            //                 "Authorization": `Bearer ${token}`
+            //             }
+            //         });
+            //         if (!res.ok) {
+            //             const text = await res.text();
+            //             throw new Error(text);
+            //         }
+            //         const data = await res.json();
+            //         // setPerson(data);
+            //         // setResultSearch("Correspondance trouvée");
+            //         console.log("Data :", data);
+            //     } catch (error) {
+            //         console.error("Erreur envoi empreintes :", error);
+            //     } finally {
+            //         // setIsLoading(false);
+            //         console.log("Fin de l'envoi des empreintes");
+            //     }
+            // };
+
 
             // Fonction pour afficher le résultat de l'identification
             function displayIdentificationResult(patientData) {
@@ -1164,7 +1242,7 @@
                             </p>
                             <p class="birth_p">
                                 <i class="ti ti-calendar"></i>
-                                ${ben.dateNaiss || new Date(ben.dateNaiss).toLocaleDateString('fr-FR') || "N/A"}
+                                ${ben.dateNaiss ? new Date(ben.dateNaiss).toLocaleDateString('fr-FR') : "N/A"}
                             </p>
                             <p style="font-size:.8rem; text-align:center; color:#4361ee;">
                                 N°Beneficiaire: ${ben.numeroBeneficiaire || "N/A"}
