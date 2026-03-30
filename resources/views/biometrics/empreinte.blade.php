@@ -396,7 +396,7 @@
             .box_item img {
                 width: 100%;
                 height: 120px;
-                object-fit: cover;
+                object-fit: contain;
                 border-radius: 12px;
                 margin-bottom: 15px;
                 transition: var(--transition-smooth);
@@ -983,15 +983,15 @@
                     "RightHand", // [0] image globale → EXCLUE
                     "RightIndex", // [1]
                     "RightMiddle", // [2]
-                    "RightLittle", // [3]
-                    "RightRing", // [4]
+                    "RightRing", // [3]
+                    "RightLittle", // [4]
                 ],
                 LEFT_FOUR: [
                     "LeftHand", // [0] image globale → EXCLUE
-                    "LeftIndex", // [1]
-                    "LeftMiddle", // [2]
-                    "LeftLittle", // [4]
-                    "LeftRing", // [3]
+                    "LeftLittle", // [1]
+                    "LeftRing", // [2]
+                    "LeftMiddle", // [3]
+                    "LeftIndex", // [4]
                 ],
                 THUMBS: [
                     "Thumbs", // [0] image globale → EXCLUE
@@ -1244,27 +1244,21 @@
                                 <i class="ti ti-calendar"></i>
                                 ${ben.dateNaiss ? new Date(ben.dateNaiss).toLocaleDateString('fr-FR') : "N/A"}
                             </p>
-                            <p style="font-size:.8rem; text-align:center; color:#4361ee;">
-                                N°Beneficiaire: ${ben.numeroBeneficiaire || "N/A"}
-                            </p>
                             <a class="btn btn-primary-light btn-wave print_fiche" style="margin-top: 10px;">
                                 Imprimer
                             </a>
                         `;
                         resultDiv.appendChild(card);
+
+                        // <p style="font-size:.8rem; text-align:center; color:#4361ee;">
+                        //     N°Beneficiaire: ${ben.numeroBeneficiaire || "N/A"}
+                        // </p>
                     });
                 }
             }
 
             // Connexion au démarrage
             connectWebSocket();
-
-            // Déconnecter le WebSocket quand on quitte la page
-            window.addEventListener('beforeunload', () => {
-                if (websocket) {
-                    websocket.close();
-                }
-            });
         </script>
     @endsection
 </x-app-layout>
