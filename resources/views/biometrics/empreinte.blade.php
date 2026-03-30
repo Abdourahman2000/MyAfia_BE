@@ -1249,10 +1249,6 @@
                             </a>
                         `;
                         resultDiv.appendChild(card);
-
-                        // <p style="font-size:.8rem; text-align:center; color:#4361ee;">
-                        //     N°Beneficiaire: ${ben.numeroBeneficiaire || "N/A"}
-                        // </p>
                     });
                 }
             }
