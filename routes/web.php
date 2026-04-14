@@ -57,6 +57,14 @@ Route::middleware(['auth', 'check_temp'])->group(function () {
     Route::prefix('biometrie')->name('biometrie.')->middleware(['auth','is_desktop','can_biometrie'])->group(function () {
         Route::get('/', [BiometricsController::class, 'index'])->name('index');
         Route::get('/visage', [BiometricsController::class, 'showFaceCapture'])->name('face');
+        // Route::get('/visage', function(){
+        //     $places = \App\Models\Place::all();
+        //     $currentPlace = null;
+        //     if (auth()->user()->place_id) {
+        //         $currentPlace = $places->find(auth()->user()->place_id);
+        //     }
+        //     dd($currentPlace->name);
+        // })->name('face');
         Route::get('/empreinte', [BiometricsController::class, 'empreinte'])->name('empreinte');
         Route::get('/lecteur-carte', [BiometricsController::class, 'lecteurCarte'])->name('lecteur-carte');
         Route::get('/getPatient', action: [BiometricsController::class, 'getPatient'])->name('getPatient');
@@ -89,6 +97,7 @@ Route::middleware(['auth', 'check_temp'])->group(function () {
         Route::post('/get/patients', 'getPatients')->name('getPatients');
         Route::post('/search/patients', 'searchPatient')->name('searchPatient');
         Route::post('/store/fiche', 'storeFiche')->name('storeFiche');
+        Route::post('/store/fiche/biometrics', 'storeFicheBiometrics')->name('storeFicheBiometrics');
 
         //assure
         Route::post('/get/patient-exception', 'getPatientForException')->name('getPatientForException');
@@ -105,6 +114,7 @@ Route::middleware(['auth', 'check_temp'])->group(function () {
     Route::prefix('printing')->name('printing.')->controller(PrintController::class)->group(function () {
         Route::get('/auth/{id}', 'printAuth')->name('authform');
         Route::get('/family/{id}', 'printFamily')->name('familyform');
+        Route::post('/biometrics', 'printBiometricsPost')->name('biometricsFilePost');
     });
 
     Route::get('/patient/{ssn}', [ManualController::class, 'getAMU'])->name('getAMU');

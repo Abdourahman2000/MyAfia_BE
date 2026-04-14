@@ -234,6 +234,7 @@
             }
 
             .btn-identify {
+                width: 100%;
                 background: #9b59b6;
                 box-shadow: 0 2px 6px rgba(155, 89, 182, 0.25);
             }
@@ -250,6 +251,11 @@
                 color: #cbd5e1 !important;
                 border: none;
                 opacity: 1 !important;
+            }
+
+            .loading {
+                cursor: not-allowed;
+                opacity: 0.5;
             }
 
             /* ===== METRIQUES ===== */
@@ -315,6 +321,24 @@
                 display: none;
             }
 
+            .box_of_item {
+                position: relative;
+                padding: 20px;
+                margin: 30px 0 20px;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 20px;
+            }
+
+            .box_of_item h3 {
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 700;
+                font-size: 1.5rem;
+                border-bottom: 2px solid var(--primary-color);
+                padding-bottom: 10px;
+            }
+
             /* Style des cartes de membres */
             .box_item {
                 width: 13.42%;
@@ -356,7 +380,7 @@
             .box_item img {
                 width: 100%;
                 height: 120px;
-                object-fit: cover;
+                object-fit: contain;
                 border-radius: 12px;
                 margin-bottom: 15px;
                 transition: var(--transition-smooth);
@@ -403,40 +427,40 @@
             }
 
             /* Date de naissance */
+            .name_p {
+                /* min-height: 45px; */
+                font-size: .9rem;
+                text-transform: uppercase;
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+
             .birth_p {
                 background: linear-gradient(135deg, #e0e7ff, #dbe4ff);
                 color: var(--secondary-color);
                 padding: 8px;
                 border-radius: 10px;
                 font-weight: 600;
-                margin: 10px 0;
+                margin: 10px 0 15px;
                 position: relative;
                 overflow: hidden;
                 transition: var(--transition-smooth);
+            }
+
+            .print_fiche {
+                position: relative;
+                bottom: 0px;
+                font-size: .8rem;
+                text-align: center;
+                color: #4361ee;
+                width: 100%;
             }
 
             .box_item img.loading {
                 background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
                 background-size: 200% 100%;
                 animation: shimmer 1.5s infinite linear;
-            }
-
-            .box_of_item {
-                position: relative;
-                padding: 20px;
-                margin: 30px 0 20px;
-                background: rgba(255, 255, 255, 0.5);
-                border-radius: 20px;
-            }
-
-            .box_of_item h3 {
-                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                font-weight: 700;
-                font-size: 1.5rem;
-                border-bottom: 2px solid var(--primary-color);
-                padding-bottom: 10px;
             }
 
             /* ===== PATIENT INFORMATION CARD ===== */
@@ -597,7 +621,6 @@
                                 <div id="capture-metrics" style="margin-top: 15px; display: none;">
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -856,24 +879,16 @@
                     startBtn.classList.remove('btn-start');
                     startBtn.classList.add('btn-stop');
                     captureBtn.disabled = false;
-                    Object.assign(video.style, {
-                        display: 'block'
-                    });
-                    Object.assign(videoPlaceholder.style, {
-                        display: 'none'
-                    });
+                    video.style.display = 'block';
+                    videoPlaceholder.style.display = 'none';
                     video.src = 'https://localhost:8443/video-live';
                 } else {
                     startBtn.innerHTML = '<i class="ti ti-video"></i> Démarrer';
                     startBtn.classList.remove('btn-stop');
                     startBtn.classList.add('btn-start');
                     captureBtn.disabled = true;
-                    Object.assign(video.style, {
-                        display: 'none'
-                    });
-                    Object.assign(videoPlaceholder.style, {
-                        display: 'flex'
-                    });
+                    video.style.display = 'none';
+                    videoPlaceholder.style.display = 'flex';
                     video.src = '';
                 }
             }
@@ -1107,9 +1122,9 @@
                             // Si aucune erreur
                             if (captureMetrics.innerHTML === "") {
                                 captureMetrics.innerHTML = ``;
+                                captureMetrics.style.display = "none";
                             }
                         }
-
 
                     } else {
                         console.error('No image data in response');
@@ -1121,6 +1136,20 @@
                     console.log("Capture error");
                 }
             });
+
+            function isLoading(state) {
+                if (state) {
+                    identifyBtn.disabled = true;
+                    identifyBtn.innerHTML = 'En cours...';
+                    identifyBtn.classList.add('loading');
+                    captureBtn.disabled = true;
+                } else {
+                    identifyBtn.disabled = false;
+                    identifyBtn.innerHTML = '<i class="ti ti-search"></i> Identifier';
+                    identifyBtn.classList.remove('loading');
+                    captureBtn.disabled = false;
+                }
+            }
 
             identifyBtn.addEventListener('click', function() {
                 try {
@@ -1150,6 +1179,7 @@
             const sendBiometricData = async (capturedImage) => {
 
                 try {
+                    isLoading(true);
                     const formData = new FormData();
                     const response = await fetch(capturedImage);
                     const blob = await response.blob();
@@ -1208,6 +1238,8 @@
                 } catch (error) {
                     console.error("Erreur lors de l'envoi des données biométriques:", error);
                     throw error;
+                } finally {
+                    isLoading(false);
                 }
             }
 
@@ -1255,21 +1287,25 @@
                          class="loading"
                          onload="this.classList.remove('loading')"
                          alt="${patientData.nom}">
-                    <p style="font-size:.9rem; text-align:center; font-weight:bold; margin-bottom:8px;">
+                    <p class="name_p">
                         ${patientData.nom}
                     </p>
                     <p class="birth_p">
                         <i class="ti ti-calendar"></i>
                         ${patientData.dateNaiss ? new Date(patientData.dateNaiss).toLocaleDateString('fr-FR') : "Non spécifiée"}
                     </p>
-                    <p style="font-size:.8rem; text-align:center; color:#4361ee;">
-                        🆔 SSN: ${patientData.numeroBeneficiaire || "N/A"}
-                    </p>
-                    <a class="btn btn-primary-light btn-wave print_fiche" style="margin-top: 10px;">
+                    <a class="btn btn-primary-light btn-wave print_fiche" data-id="${patientData.idPersonne}" data-photo="${photoUrl}" data-numero-assure="${patientData.numeroAssure}" data-name="${patientData.nom}"
+                    data-regime="${patientData.regime}" data-date-naissance="${patientData.dateNaiss}" data-gender="${patientData.sexe}"
+                    data-has-right="${patientData.hasRight}"
+                    >
                         Imprimer
                     </a>
                 `;
                 resultDiv.appendChild(membre);
+
+                // <p style="font-size:.8rem; text-align:center; color:#4361ee;">
+                //         ${patientData.numeroAssure || "N/A"}
+                //     </p>
 
                 // Cartes des bénéficiaires
                 if (patientData.beneficiaire && Array.isArray(patientData.beneficiaire)) {
@@ -1287,17 +1323,14 @@
                                  class="loading"
                                  onload="this.classList.remove('loading')"
                                  alt="${ben.nom || ''}">
-                            <p style="font-size:.9rem; text-align:center; font-weight:bold; margin-bottom:8px;">
+                            <p class="name_p">
                                 ${ben.nom || 'Non spécifié'}
                             </p>
                             <p class="birth_p">
                                 <i class="ti ti-calendar"></i>
-                                ${ben.dateNaiss || new Date(ben.dateNaiss).toLocaleDateString('fr-FR') || "N/A"}
+                                ${ben.dateNaiss ? new Date(ben.dateNaiss).toLocaleDateString('fr-FR') : "N/A"}
                             </p>
-                            <p style="font-size:.8rem; text-align:center; color:#4361ee;">
-                                N°Beneficiaire: ${ben.numeroBeneficiaire || "N/A"}
-                            </p>
-                            <a class="btn btn-primary-light btn-wave print_fiche" style="margin-top: 10px;">
+                            <a class="btn btn-primary-light btn-wave print_fiche">
                                 Imprimer
                             </a>
                         `;
@@ -1305,9 +1338,54 @@
                     });
                 }
             }
+
+            $(document).on('click', '.print_fiche', function(e) {
+                e.preventDefault();
+
+                let params = {
+                    idPersonne: $(this).data('id'),
+                    numeroAssure: $(this).data('numero-assure'),
+                    name: $(this).data('name'),
+                    regime: $(this).data('regime'),
+                    dateNaiss: $(this).data('date-naissance'),
+                    gender: $(this).data('gender'),
+                    photo: $(this).data('photo'),
+                    hasRight: $(this).data('has-right'),
+                    _token: "{{ csrf_token() }}"
+                };
+
+                console.log(params);
+
+                let form = document.createElement("form");
+                form.target = "PrintWindow";
+                form.method = "POST";
+                form.action = "{{ route('printing.biometricsFilePost') }}";
+
+                for (let key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        let hiddenField = document.createElement("input");
+                        hiddenField.type = "hidden";
+                        hiddenField.name = key;
+                        hiddenField.value = params[key] !== undefined && params[key] !== null ? params[key] : '';
+                        form.appendChild(hiddenField);
+                    }
+                }
+
+                document.body.appendChild(form);
+
+                let bodyWidth = $('html').width();
+                let bodyHeight = $('html').height();
+                window.open("", "PrintWindow", "left=0, top=0, width=" + bodyWidth + ", height=" + bodyHeight +
+                    ", toolbar=0, resizable=0");
+
+                form.submit();
+                document.body.removeChild(form);
+            });
+
             // checkStatus();
             // checkWebcam();
             connectWebSocket();
         </script>
+
     @endsection
 </x-app-layout>

@@ -1215,6 +1215,9 @@
                         <i class="ti ti-calendar"></i>
                         ${patientData.dateNaiss ? new Date(patientData.dateNaiss).toLocaleDateString('fr-FR') : "Non spécifiée"}
                     </p>
+                    <p style="font-size:.8rem; text-align:center; color:#4361ee;">
+                        ${patientData.numeroAssure || "N/A"}
+                    </p>
                     <a class="btn btn-primary-light btn-wave print_fiche" style="margin-top: 10px;">
                         Imprimer
                     </a>
@@ -1249,6 +1252,10 @@
                             </a>
                         `;
                         resultDiv.appendChild(card);
+
+                        // <p style="font-size:.8rem; text-align:center; color:#4361ee;">
+                        //     N°Beneficiaire: ${ben.numeroBeneficiaire || "N/A"}
+                        // </p>
                     });
                 }
             }

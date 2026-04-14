@@ -145,6 +145,43 @@ class AjaxController extends Controller
         ], 200);
     }
 
+    public function storeFicheBiometrics(Request $request)
+    {
+        
+        $historyArray = [
+            'place' => Auth::user()->place,
+            'date' => Carbon::now()->toDateTimeString(),
+            'user' => Auth::user()->name,
+        ];
+        
+        $ref = time() . rand(10, 99);
+
+        // Mock authform object since print_biomi expects an entryOffice model instance
+        $newFiche = (object) [
+            'ref' => $ref,
+            'idPersonne' => $request->idPersonne,
+            'name' => $request->name,
+            'numero_assure' => $request->numeroAssure,
+            'birth' => $request->dateNaiss,
+            'regime' => $request->regime,
+            'access_soin' => $request->hasRight == "true" || $request->hasRight == "1" || $request->hasRight === true ? 'OUI' : 'NON',
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'photo' => $request->photo,
+            'taken_by_name' => Auth::user()->name,
+            'taken_place' => Auth::user()->place,
+            'taken_by' => Auth::user()->id,
+            'history' => $historyArray,
+            'exception_status' => false,
+            'exception_reason' => null,
+        ];
+
+        return response()->json([
+            'message' => 'Data Inserted Successfully',
+            'status' => true,
+            'idPersonne' => $newFiche
+        ], 200);
+    }
+
     // public function searchPatient(Request $request)
     // {
 
@@ -210,77 +247,77 @@ class AjaxController extends Controller
     //     }
     // }
 
-    public function searchPatient(Request $request)
-    {
-        $ssn = $request->ssn;
-        $name = $request->name;
-        $mother_name = $request->mother_name;
-        $searchBoolean = false;
+    // public function searchPatient(Request $request)
+    // {
+    //     $ssn = $request->ssn;
+    //     $name = $request->name;
+    //     $mother_name = $request->mother_name;
+    //     $searchBoolean = false;
 
-        if (empty($ssn) && empty($name) && empty($mother_name)) {
-            return response()->json([
-                'status' => false,
-                'data' => [],  // Ensure that an empty array is returned
-                'message' => 'Vous devez saisir au moins une valeur'
-            ], 500);
-        }
+    //     if (empty($ssn) && empty($name) && empty($mother_name)) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'data' => [],  // Ensure that an empty array is returned
+    //             'message' => 'Vous devez saisir au moins une valeur'
+    //         ], 500);
+    //     }
 
-        // Build the query, but execute only if searchBoolean is true
-        $query = MemberFamilyAmu::query();
+    //     // Build the query, but execute only if searchBoolean is true
+    //     $query = MemberFamilyAmu::query();
 
-        if (!empty($ssn) && strlen($ssn) >= 5) {
-            $query->where('SSN', 'LIKE', "%$ssn%");
-            $searchBoolean = true;
-        }
+    //     if (!empty($ssn) && strlen($ssn) >= 5) {
+    //         $query->where('SSN', 'LIKE', "%$ssn%");
+    //         $searchBoolean = true;
+    //     }
 
-        if (!empty($name) && strlen($name) >= 3) {
-            $query->orWhere('Nom', 'LIKE', "%$name%");
-            $searchBoolean = true;
-        }
+    //     if (!empty($name) && strlen($name) >= 3) {
+    //         $query->orWhere('Nom', 'LIKE', "%$name%");
+    //         $searchBoolean = true;
+    //     }
 
-        if (!empty($mother_name) && strlen($mother_name) >= 4) {
-            $query->orWhere('Nom de la mere de l\'assure', 'LIKE', "%$mother_name%");
-            $searchBoolean = true;
-        }
+    //     if (!empty($mother_name) && strlen($mother_name) >= 4) {
+    //         $query->orWhere('Nom de la mere de l\'assure', 'LIKE', "%$mother_name%");
+    //         $searchBoolean = true;
+    //     }
 
-        // Only run this query if $searchBoolean is true
-        if ($searchBoolean) {
-            $results = $query->where('RelationCode', '1')
-                ->limit(500)
-                ->get()
-                ->unique('Nom');
+    //     // Only run this query if $searchBoolean is true
+    //     if ($searchBoolean) {
+    //         $results = $query->where('RelationCode', '1')
+    //             ->limit(500)
+    //             ->get()
+    //             ->unique('Nom');
 
-            $dataReturned = [];
-            if ($results->count() != 0) {
-                foreach ($results as $oneAMU) {
-                    $rand = 0;
-                    $oneAMU->Photo = 'data:image/jpeg;base64,' . base64_encode($oneAMU->Photo);
-                    if (strtolower($oneAMU->{'Regime Travailleur'}) == 'desactiver') {
-                        $activate_status = 'desactiver';
-                    }
-                    $oneAMU->disactivated = $rand == 1 ? true : false;
-                    $dataReturned[] = $oneAMU;
-                }
+    //         $dataReturned = [];
+    //         if ($results->count() != 0) {
+    //             foreach ($results as $oneAMU) {
+    //                 $rand = 0;
+    //                 $oneAMU->Photo = 'data:image/jpeg;base64,' . base64_encode($oneAMU->Photo);
+    //                 if (strtolower($oneAMU->{'Regime Travailleur'}) == 'desactiver') {
+    //                     $activate_status = 'desactiver';
+    //                 }
+    //                 $oneAMU->disactivated = $rand == 1 ? true : false;
+    //                 $dataReturned[] = $oneAMU;
+    //             }
 
-                return response()->json([
-                    'status' => true,
-                    'data' => $dataReturned
-                ], 200);  // Success response
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'data' => [],
-                    'message' => "Aucun patient n'a été trouvé avec les informations données"
-                ], 500);
-            }
-        } else {
-            return response()->json([
-                'status' => false,
-                'data' => [],
-                'message' => "Aucun critère de recherche valide n'a été fourni"
-            ], 500);
-        }
-    }
+    //             return response()->json([
+    //                 'status' => true,
+    //                 'data' => $dataReturned
+    //             ], 200);  // Success response
+    //         } else {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'data' => [],
+    //                 'message' => "Aucun patient n'a été trouvé avec les informations données"
+    //             ], 500);
+    //         }
+    //     } else {
+    //         return response()->json([
+    //             'status' => false,
+    //             'data' => [],
+    //             'message' => "Aucun critère de recherche valide n'a été fourni"
+    //         ], 500);
+    //     }
+    // }
 
     public function getPatientForException(Request $request)
     {

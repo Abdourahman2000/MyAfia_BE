@@ -16,7 +16,10 @@ class BiometricsController extends Controller
 
     public function showFaceCapture()
     {
-        return view('biometrics.face-capture');
+        return view('biometrics.face-capture', [
+            'canprint' => auth()->user()->canprint,
+            'canprintfamily' => auth()->user()->canprintfamily
+        ]);
     }
 
     public function empreinte()

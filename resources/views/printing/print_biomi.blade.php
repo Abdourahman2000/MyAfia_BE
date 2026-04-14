@@ -6,8 +6,8 @@
     $mytime = Carbon::now();
     $printed_time = $mytime->toDateTimeString();
 
-    $patient = $authform->name;
-    $ssn = $authform->ssn;
+    // $patient = $authform->name;
+    // $ssn = $authform->ssn;
 
     // $time = Carbon::now()->format('d/m/Y');
     $time = Carbon::parse($authform->created_at)->format('d/m/Y');
@@ -542,27 +542,40 @@
                         </p>
                         <p>
                             <span>Type d'utilisateur</span>
-                            <span>{{ ucfirst($authform->createdBy->type) }}</span>
+                            <span>{{ ucfirst($authform->type) }}</span>
                         </p>
                         <p>
-                            <span>Numéro de sécurité sociale (SSN)</span>
+                            <span>Matricule</span>
                             <span>{{ $authform->numero_assure }}</span>
                         </p>
                         <p>
                             <span>Date de naissance</span>
-                            <span>{{ Carbon::parse($authform->birth)->format('d/m/Y') }}</span>
+                            <span>{{ Carbon::parse($authform->birthDate)->format('d/m/Y') }}</span>
                         </p>
                         <p>
                             <span>Âge</span>
-                            <span>{{ Carbon::parse($authform->birth)->age }} Ans</span>
+                            <span>{{ Carbon::parse($authform->birthDate)->age }} Ans</span>
                         </p>
                         <p>
                             <span>Régime</span>
                             <span>{{ $authform->regime }}</span>
                         </p>
+                        @php
+                            $places = \App\Models\Place::all();
+                            $currentPlace = null;
+                            if (auth()->user()->place_id) {
+                                $currentPlace = $places->find(auth()->user()->place_id);
+                            }
+                        @endphp
                         <p>
                             <span>Lieu</span>
-                            <span>{{ $authform->createdBy->place }}</span>
+                            @if ($currentPlace)
+                                <span>{{ $currentPlace->name }}</span>
+                            @elseif(auth()->user()->place)
+                                <span>{{ auth()->user()->place }}</span>
+                            @else
+                                <span class="text-muted">Aucun lieu assigné</span>
+                            @endif
                         </p>
                         <p>
                             <span>Accès aux soins :</span>
@@ -574,7 +587,7 @@
                         </p>
                         <p>
                             <span>Créé par</span>
-                            <span>{{ $authform->createdBy->name }}</span>
+                            <span>{{ auth()->user()->name }}</span>
                         </p>
                         <p>
                             <span>Imprimé par</span>
@@ -582,7 +595,13 @@
                         </p>
                         <p>
                             <span>Site Agent</span>
-                            <span>{{ auth()->user()->place }}</span>
+                            @if ($currentPlace)
+                                <span>{{ $currentPlace->name }}</span>
+                            @elseif(auth()->user()->place)
+                                <span>{{ auth()->user()->place }}</span>
+                            @else
+                                <span class="text-muted">Aucun lieu assigné</span>
+                            @endif
                         </p>
                         @if ($authform->exception_status)
                             <p>
@@ -603,8 +622,14 @@
                         style="width:100%; display:flex; justify-content:space-between; gap:.3rem; flex-wrap:wrap; flex-direction: row;">
                         @foreach ($authform->history as $history)
                             <p class="showing_history_p">
-                                <span>{{ $history['place'] }}</span>
-                                <span>{{ $history['user'] }}</span>
+                                @if ($currentPlace)
+                                    <span>{{ $currentPlace->name }}</span>
+                                @elseif(auth()->user()->place)
+                                    <span>{{ auth()->user()->place }}</span>
+                                @else
+                                    <span class="text-muted">Aucun lieu assigné</span>
+                                @endif
+                                <span style="margin-left:.5rem;">{{ $history['user'] }}</span>
                                 <span>{{ Carbon::parse($history['date'])->format('d/m/Y H:i:s') }}</span>
                             </p>
                         @endforeach
@@ -656,6 +681,16 @@
             correctLevel: QRCode.CorrectLevel.H // Error correction level (L, M, Q, H)
         });
         qrcode.makeCode("{{ $authform->ref }}");
+
+        // Automatically trigger print dialog once loaded
+        window.onload = function() {
+            setTimeout(function() {
+                window.print();
+                setTimeout(function() {
+                    window.close();
+                }, 500);
+            }, 500);
+        };
     </script>
 
 </body>

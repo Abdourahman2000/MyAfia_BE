@@ -7,6 +7,7 @@ use App\Models\entryOffice;
 use Illuminate\Http\Request;
 use App\Models\MemberFamilyAmu;
 use App\Models\Diagnose;
+use Illuminate\Support\Facades\Auth;
 
 class PrintController extends Controller
 {
@@ -22,6 +23,39 @@ class PrintController extends Controller
         }
         return view('printing.auth', [
             'authform' => $authform
+        ]);
+    }
+
+    public function printBiometricsPost(Request $request)
+    {
+        $ref = time() . rand(10, 99);
+        
+
+        // Mock authform object since print_biomi expects an entryOffice model instance
+        $authform = (object) [
+            'ref' => $ref,
+            'name' => $request->name,
+            'type' => auth()->user()->type ?? 'agent',
+            'place' => auth()->user()->place,
+            'numero_assure' => $request->numeroAssure,
+            'birthDate' => $request->dateNaiss,
+            'regime' => $request->regime,
+            'access_soin' => $request->hasRight == "true" || $request->hasRight == "1" || $request->hasRight === true ? 'OUI' : 'NON',
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'photo' => $request->photo,
+            'history' => [
+                [
+                    'place' => auth()->user()->place,
+                    'date' => Carbon::now()->toDateTimeString(),
+                    'user' => auth()->user()->name,
+                ]
+            ],
+            'exception_status' => false,
+            'exception_reason' => null,
+        ];
+
+        return view('printing.print_biomi', [
+            'authform' => $authform,
         ]);
     }
 
