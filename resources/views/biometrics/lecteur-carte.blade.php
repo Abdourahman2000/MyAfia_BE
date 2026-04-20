@@ -526,7 +526,7 @@
                 } = data;
 
                 switch (type) {
-                    case 'SmartCardConnectionError':
+                    case 'BIOMETRIC_LECTEUR':
                         // Gérer les erreurs
                         Swal.fire({
                             icon: 'error',
@@ -534,9 +534,9 @@
                             text: 'Veuillez connecter un lecteur de carte'
                         });
                         break;
-                    case 'OWNER_INFO':
-                        console.log(processSteps['OWNER_INFO'].label);
-                        updateProgressUI(processSteps['OWNER_INFO'].weight);
+                    case 'BIOMETRIC_LECTEUR_PRODUCT':
+                        console.log(processSteps['BIOMETRIC_LECTEUR_PRODUCT'].label);
+                        updateProgressUI(processSteps['BIOMETRIC_LECTEUR_PRODUCT'].weight);
                         break;
 
                     case 'SMARTCARD_READ':
@@ -609,26 +609,36 @@
 
             startBtn.addEventListener('click', async () => {
                 try {
-                    const response = await fetch('https://localhost:8443/read-and-match', {
+                    const response = await fetch('https://localhost:8443/get-members-myafia', {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json'
                         }
                     });
 
+                    const data = await response.json();
+
                     console.log('Click sur le bouton de démarrage');
 
-                    console.log(response);
-                    // if (!response.ok) {
-                    //     throw new Error(`HTTP error! status: ${response.status}`);
-                    // }
+                    // console.log("data", data.message);
 
+                    if (!response.ok) {
+                        // console.log(data?.error);
+                        throw new Error(data?.error || 'Erreur lors de la requête');
+                    }
+
+                    console.log(response);
                     // const result = await response.json();
                     // console.log('Résultat final:', result);
                     // return result;
                 } catch (error) {
-                    console.error('Erreur lors de la requête:', error);
-                    throw error;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur lors de la requête',
+                        text: error.message
+                    });
+                    // console.error('Erreur lors de la requête:', error.message);
+                    // throw error;
                 }
             });
 
