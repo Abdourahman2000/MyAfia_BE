@@ -593,21 +593,6 @@
                         <div class="members-grid" id="membersGrid"></div>
                     </div>
 
-                    <!-- Fingerprint live preview (shown during matching) -->
-                    <div id="fingerprintPreview" style="display:none; padding:1rem 1.5rem; border-bottom:1px solid #ecf1f7; align-items:center; gap:1.2rem;">
-                        <div>
-                            <div class="fp-preview-label">
-                                <span>👆</span> Aperçu de la capture d'empreinte
-                            </div>
-                            <div class="fp-scanner-wrap" id="fpScannerWrap">
-                                <span class="fp-placeholder-icon" id="fpPlaceholder">🖐️</span>
-                                <img id="fpPreviewImage" src="" alt="Empreinte" />
-                            </div>
-                            <div class="fp-info-text" id="fpInfoText">En attente du doigt…</div>
-                            <div class="fp-quality-bar"><div class="fp-quality-fill" id="fpQualityFill"></div></div>
-                        </div>
-                    </div>
-
                     <!-- Result section -->
                     <div id="resultSection" style="display:none; padding:1.2rem 1.5rem; border-bottom:1px solid #ecf1f7;">
                         <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:1rem;">
@@ -1129,27 +1114,7 @@
 
             // ─── Fingerprint preview ─────────────────────────────────────────
             function showFingerprintPreview(visible) {
-                const section     = document.getElementById('fingerprintPreview');
-                const scannerWrap = document.getElementById('fpScannerWrap');
-                const infoText    = document.getElementById('fpInfoText');
-                const placeholder = document.getElementById('fpPlaceholder');
-                const img         = document.getElementById('fpPreviewImage');
-                const fill        = document.getElementById('fpQualityFill');
-
-                if (visible) {
-                    section.style.display = 'flex';
-                    scannerWrap.classList.add('active');
-                    scannerWrap.classList.remove('detected');
-                    infoText.textContent = 'Posez votre pouce sur le capteur…';
-                    placeholder.textContent = '🖐️';
-                    placeholder.style.display = 'block';
-                    img.style.display = 'none';
-                    if (fill) fill.style.width = '0%';
-                    qualityCount = 0;
-                } else {
-                    section.style.display = 'none';
-                    scannerWrap.classList.remove('active', 'detected');
-                }
+                // Section supprimée — fonction conservée pour éviter les erreurs
             }
 
             function displayFingerprintPreview(imageData) {
